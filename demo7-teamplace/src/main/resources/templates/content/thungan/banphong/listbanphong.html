@@ -1,0 +1,150 @@
+
+<th:block  xmlns:th="http://www.thymeleaf.org">
+<form id="form-banphong">
+	<table class="table table-bordered table-hover display" style="margin-top:10px;">
+		<thead>
+			<tr>
+				<th style="line-height: 35px; padding:3px;text-align: center;" align="center" scope="col">Số bàn / phòng</th>
+				<th style="line-height: 35px; padding:3px;text-align: center;" align="center" scope="col">Khu vực</th>
+				<th style="line-height: 35px; padding:3px;text-align: center;" align="center" scope="col">Bảng giá</th>
+				<th style="line-height: 35px; padding:3px;text-align: center;" align="center">Không dùng</th>
+				<th style="line-height: 35px; padding:3px;text-align: center;" align="center">Thao tác</th>
+			</tr>
+		</thead>
+		<tbody class="text-nowrap">
+			<tr  th:each="banphong1:${banphong}" class="banphong" th:id="'banphong'+${banphong1.id}">
+				<td align="center" th:name="${banphong1.id}" th:utext="${banphong1.id}" scope="row">Mark</td>
+				<td align="center" th:name="${banphong1.maKV.id}" th:utext="${banphong1.maKV.tenKV}">Otto</td>
+				<td align="center" th:name="${banphong1.maBG.id}" th:utext="${banphong1.maBG.tenBG}">Otto</td>
+				<td align="center"><i th:if ="${banphong1.status == 2}" class="fa fa-check-square bigfonts"></i></td>
+				<td style="color: white;">
+					<a class="btn btn-primary btn-sm edit-banphong" data-toggle="modal" data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+					<a class="btn btn-danger btn-sm delete-banphong" data-placement="top" data-toggle="tooltip" data-title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<input type="submit" class="submit" style="display: none" name="">
+</form>
+
+
+<div  style="display: none;" class="noob"></div>
+<table style="display: none;">
+	<tbody class="form-add">
+		<tr class="add dle">
+			<td>
+				<input type="text" placeholder="Ký hiệu bàn" class="form-control sl-select" required>
+			</td>
+			<td class="khuvuc-select">
+				<select class="form-control form-control-sm" name="state" required>
+					<option th:each="khuvuc:${khuvuc}" th:value="${khuvuc.id}" th:utext="${khuvuc.tenKV}" value="0">Hàng Hóa</option>
+				</select>
+			</td>
+			<td class="banggia-select">
+				<select class="form-control form-control-sm" name="state" required>
+					<option th:each="banggia1:${banggia}" th:value="${banggia1.id}" th:utext="${banggia1.tenBG}" value="0">Hàng Hóa</option>
+				</select>
+			</td>
+			<td >
+				<input class="status-checkbox" type="checkbox" name="">
+			</td>
+			<td>
+				<button type="button" class="btn-danger btn-sm remove-add"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var active = $("#myTabContent5 .active");
+		$("#form-banphong").submit(function(){
+			var selecta = $(this).find(".sl-select");
+			var khuvuca = $(this).find(".khuvuc-select");
+			var banggiaa = $(this).find(".banggia-select");
+			var statusa = $(this).find(".status-checkbox")
+			var flag = true;
+			var id = [];
+			var khuvuc = [];
+			var banggia = [];
+			var status = [];
+			for(let i = 0; i < selecta.size(); i++){
+				id[i] = selecta.eq(i).val()
+				khuvuc[i] = khuvuca.eq(i).find("select option:selected").val();
+				banggia[i] = banggiaa.eq(i).find("select option:selected").val();
+				if(statusa.is(':checked')){
+					status[i] = 2;
+				}else{
+					status[i] = 0;
+				}
+			}
+			for(let i = 0; i < id.length; i++){
+				for(let j = i + 1; j < id.length; j++){
+					if(id[i] == id[j]){
+						alert("Lỗi trùng số(kí hiệu) bàn!");
+						return false;
+					}
+				}
+			}
+			var banphong = {
+				"id":id,
+				"khuVuc":khuvuc,
+				"bangGia":banggia,
+				"status":status,
+			}
+			// console.log(banphong);
+			return save(banphong,"/ajax/banphong/listbanphong/add", function(result){
+				console.log(result);
+				if(result.id==1){
+					$("#body-banphong").load("/ajax/banphong/listbanphong");
+					$("#thungan").load("/ajax/banphong/thungan1");
+				}else{
+					alert(result.status);
+				}
+			});
+		})
+
+		$("#form-banphong").on("click",".edit-banphong", function(){
+			var parent = $(this).parents("tr");
+			parent.hide();
+			parent.after($(".form-add").html());
+			// $("#table-form").find('.select2').select2();
+			var edit = parent.next().removeClass("add").addClass("edit-selecter").find("td");
+			edit.eq(0).find("input").val(parent.find("td").eq(0).html());
+			edit.eq(0).find("input").prop('disabled', true);
+			edit.eq(1).find("select").val(parent.find("td").eq(1).attr("name"));
+			edit.eq(2).find("select").val(parent.find("td").eq(2).attr("name"));
+			if(parent.find("td").eq(3).html() == ""){
+				edit.eq(3).find("input").prop('checked', false);
+			}else{
+				edit.eq(3).find("input").prop('checked', true);
+			}
+		})
+
+		$("#form-banphong").on("click",".delete-banphong", function(){
+			if(confirm("Xác nhận xóa")){
+				var a = $(this).parents("tr");
+				var idbp = a.find("td").html();
+
+				Sms = {
+					id:idbp,
+					status:""
+				}
+				save(Sms,"/ajax/banphong/listbanphong/delete",function(result){
+					if(result.id == '1'){
+						// alert("aaaaaaaaa")
+						a.remove();
+						$("#thungan").load("/ajax/banphong/thungan1");
+					}else{
+						$("#body-banphong").load("/ajax/banphong/listbanphong");
+						// alert("bbbbbbbbbbb")
+					}
+				})
+
+			}
+		})
+	})
+</script>
+</th:block>

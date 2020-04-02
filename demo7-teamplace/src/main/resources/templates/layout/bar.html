@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+	<div th:fragment="headerbar" class="headerbar">
+
+		<!-- LOGO -->
+		<div class="headerbar-left">
+			<a href="index.html" class="logo"><img alt="Logo"
+				src="../static/assets/images/logo.png"
+				th:src="@{/assets/images/logo.png}" /> <span>Fasttrack Cafe</span></a>
+		</div>
+
+		<nav class="navbar-custom">
+
+			<ul class="list-inline float-right mb-0">
+
+				
+
+				<li class="list-inline-item dropdown notif"><a
+					class="nav-link dropdown-toggle nav-user" data-toggle="dropdown"
+					href="#" role="button" aria-haspopup="false" aria-expanded="false">
+						<img src="../static/assets/images/avatars/admin.png"
+						th:src="@{/assets/images/avatars/admin.png}" alt="Profile image"
+						class="avatar-rounded">
+				</a>
+					<div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+						<!-- item-->
+						<div class="dropdown-item">
+							<h5 class="text-overflow">
+								<small>Hello, <span th:name="${nhanVien.id}" id="User"  th:text="' '+${nhanVien.ten}"></span> </small>
+							</h5>
+						</div>
+
+						<!-- item-->
+						<a data-toggle="modal" data-target=".bd-example-modal-sm"
+							class="dropdown-item notify-item"> <i class="fa fa-user"></i>
+							<span> Đổi mật khẩu</span>
+						</a>
+
+						<!-- item-->
+						<a href="#" th:href="@{/dangxuat}" class="dropdown-item notify-item"> <i
+							class="fa fa-power-off"></i> <span>Logout</span>
+						</a>
+
+						<!-- it
+						<a target="_blank" href="https://www.pikeadmin.com"
+							class="dropdown-item notify-item"> <i
+							class="fa fa-external-link"></i> <span>Pike Admin</span>
+						</a> em-->
+					</div></li>
+
+			</ul>
+
+			<ul class="list-inline menu-left mb-0">
+				<li class="float-left">
+					<button class="button-menu-mobile open-left">
+						<i class="fa fa-fw fa-bars"></i>
+					</button>
+				</li>
+			</ul>
+
+		</nav>
+
+	</div>
+	<!-- End Navigation -->
+
+	<div th:fragment="main-sidebar" class="left main-sidebar">
+
+		<div class="sidebar-inner leftscroll">
+
+			<div id="sidebar-menu">
+
+				<ul>
+
+					
+
+					<li class="submenu"><a href="#"><i
+							class="fa fa-fw fa-table"></i> <span> Thu Ngan </span> <span
+							class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a onclick="loadContent('/home/thungan/banphong')">Bàn
+									Phòng</a></li>
+							<li><a onclick="loadContent('/home/thungan/datban')">Đặt
+									Bàn</a></li>
+							<li><a onclick="loadContent('/home/thungan/hoadon')">Hóa
+									Đơn</a></li>
+							<li><a onclick="loadContent('/home/thungan/doanhthu')">Doanh
+									Thu</a></li>
+							<li><a onclick="loadContent('/home/thungan/thuchi')">Thu
+									Chi</a></li>
+						</ul>
+					</li>
+
+					<li class="submenu"><a href="#"><i class="fa fa-fw fa-tv"></i>
+							<span> Mặt Hàng</span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a onclick="loadContent('/home/mathang/danhsach')">Danh Sách</a></li>
+							<li><a onclick="loadContent('/home/mathang/dulieu')">Dữ liệu chung</a></li>
+						</ul></li>
+					<!-- <li class="submenu"><a onclick="loadContent('/home/mathang')"><i
+						class="fa fa-fw fa-image"></i> <span> Mặt Hàng</span></a></li> -->
+
+					<!-- <li class="submenu"><a href="#"><i
+							class="fa fa-fw fa-file-text-o"></i> <span> Báo Cáo Thống
+								Kê </span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a
+								onclick="loadContent('/home/baocaothongke/baocaodoanhthu')">Doanh
+									Thu </a></li>
+							<li><a
+								onclick="loadContent('/home/baocaothongke/baocaotonkho')">Tồn
+									Kho</a></li>
+							<li><a onclick="loadContent('/home/baocaothongke/baocaono')">Nợ</a></li>
+							<li><a
+								onclick="loadContent('/home/baocaothongke/baocaohieuquakinhdoanh')">Hiệu
+									Quả Kinh Doanh</a></li>
+						</ul>
+					</li> -->
+
+					<li class="submenu"><a href="#"><i class="fa fa-fw fa-th"></i>
+							<span> Quảng Lý Chứng Từ </span> <span class="menu-arrow"></span></a>
+						<ul class="list-unstyled">
+							<li><a onclick="loadContent('/home/quanglychungtu/banle')">Bán Lẻ</a></li>
+							<li><a onclick="loadContent('/home/quanglychungtu/dondathang')">Đơn Đặt Hàng</a></li>
+							<li><a onclick="loadContent('/home/quanglychungtu/quanglynhapxuat')">Nhập Xuất</a></li>
+							<li><a onclick="loadContent('/home/quanglychungtu/thuchi')">Thu Chi</a></li>
+						</ul>
+					</li>
+
+					<li class="submenu"><a onclick="loadContent('/home/khachhang')"><i
+							class="fa fa-fw fa-image"></i> <span> Khách Hàng</span></a></li>
+
+					<li class="submenu"><a onclick="loadContent('/home/nhanvien')"><i
+							class="fa fa-fw fa-image"></i> <span> Nhân Viên </span></a></li>
+
+					<li class="submenu"><a
+						onclick="loadContent('/home/caidatdulieu')"><i
+							class="fa fa-fw fa-image"></i> <span> Cài Đặt Dữ Liệu</span></a></li>
+
+					<li class="submenu"><a onclick="loadContent('/home/hethong')"><i
+							class="fa fa-fw fa-image"></i> <span> Hệ Thống</span></a></li>
+				</ul>
+
+				<div class="clearfix"></div>
+
+			</div>
+
+			<div class="clearfix"></div>
+
+		</div>
+
+	</div>
+	<!-- End Sidebar -->
+</body>
+</html>

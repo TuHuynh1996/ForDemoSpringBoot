@@ -1,0 +1,84 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<table class="table table-responsive-xl table-bordered table-hover display">
+	<thead>
+		<tr>
+			<th scope="col">Mã Bảng Giá</th>
+			<th scope="col">Tên Bảng Giá</th>
+			<th scope="col">Mặc Định</th>
+		</tr>
+	</thead>
+	<tbody th:remove="all-but-first" >
+		<tr  th:each="lbg:${lbg}" class="lbg" th:id="'lbg'+${lbg.id}">
+			<td align="center" th:utext="${lbg.id}" scope="row">Mark</td>
+			<td align="center" th:utext="${lbg.tenBG}">Otto</td>
+			<td align="center"><i th:if ="${lbg.macDinh == 1}" class="fa fa-check-square bigfonts"></td>
+		</tr>
+		<tr>
+			<td scope="row">Jacob</td>
+			<td>Thornton</td>
+			<td>@fat</td>
+		</tr>
+		<tr>
+			<td scope="row">Larry</td>
+			<td>the Bird</td>
+			<td>@twitter</td>
+		</tr>
+	</tbody>
+</table>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$(".lbg").each(function(){
+			$(this).contextMenu('myMenu1', {
+				bindings: {
+					'edit-l': function(t) {
+						var n = $("#"+t.id).find("td");
+						$("#malbg").val(n.eq(0).html());
+						$('#malbg').prop('readonly', true);
+						$("#tenlbg").val(n.eq(1).html());
+						if(n.eq(2).html() != ""){
+							$("#macdinhbg").prop('checked', true);
+						}else{
+							$("#macdinhbg").prop('checked', false);
+						}
+						$("#form-loaibanggia").click();
+						// alert("bbbbbbbbbbb")
+					},
+					'delete-l': function(t) {
+
+						var n = $("#"+t.id).find("td");
+						if(confirm("Xác nhận xóa "+ n.eq(1).html())){
+							if(n.eq(2).html() != ""){
+								macdinh = 1;
+							}else{
+								macdinh = 0;
+							}
+							var loaiBangGia = {
+								"id": n.eq(0).html(),
+								"tenBG": n.eq(1).html(),
+								"macdinh": macdinh
+							}
+							
+							save(loaiBangGia,"/ajax/mathang/deletelbg", function(result){
+								console.log(result);
+								$("#loaibanggia").load("/ajax/mathang/loaibanggia");
+								if(result.id == 0){
+									alert(result.status);
+								}
+							})
+						}else{
+							return false;
+						}
+						
+					}
+				}
+			});
+		});
+	});
+</script>
+</th:block>
+
+
+
+
+

@@ -1,0 +1,371 @@
+
+
+<th:block xmlns:th="http://www.thymeleaf.org">
+<div class="row">
+	<div class="col-xl-12">
+		<div class="breadcrumb-holder">
+			<h1 class="main-title float-left">Nhân Viên</h1>
+			<ol class="breadcrumb float-right">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">Nhân Viên</li>
+			</ol>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<!-- <h3>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h3> -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<div class="row">
+			<!-- Khu vực tree view bộ phân     ////////////////////////////////////////////////////////////////////////////////-->
+			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3" >
+				<div class="card mb-3">
+					<div class="card-header">
+						<h3>
+							<i class="fa fa-folder-open-o"></i> Bộ Phận
+						</h3>
+					</div>
+					<div class="card-header">
+						<button type="button" id="addb2" class="btn btn-success btn-sm bpbtn" >Thêm BP</button>
+						<button type="button" id="editbp2" class="btn btn-warning btn-sm bpbtn">Sửa tên</button>
+						<button type="button" id="deletebp2" class="btn btn-danger btn-sm bpbtn">Xóa BP</button>
+					</div>
+					
+					<div class="card-body" style="overflow: auto; max-height: 400px" id="bophan">
+
+					</div>
+				</div>
+			</div>
+			<!-- Khu vực bảng danh sác nhan viên //////////////////////////////////////////////////////////////////////////////////////// -->
+			<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9" >
+				<div class="row">
+
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="card mb-3">
+							<div class="card-header" >
+								<h3 id="tabletitle">
+								</h3>
+							</div>
+							
+							<div class="card-body">
+								
+								<div class="card-header">
+									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+										<button type="button" id="add-nhanvien" class="btn btn-success">Thêm Nhân viên mới</button>
+									</div>
+								</div>
+								<div class="table-responsive"  id="nhanvien">
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ///////////////////////////////////////////////////////////////////////////////////////////////// -->
+		</div>
+	</div>
+</div>
+<span data-toggle='modal' id="form-nhanvien" data-target='.form-nhanvien'></span>
+	<div class="modal fade form-nhanvien" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="title-nv">Small
+						title</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form id="add-nv">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="tennhanvien">Tên Nhân Viên</label> <input
+									type="text" class="form-control" id="tennhanvien"
+									aria-describedby="emailHelp" placeholder="Nhập tên nhân viên" required>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="diachinv">Địa chỉ</label> <input
+									type="text" class="form-control" id="diachinv"
+									aria-describedby="emailHelp" placeholder="Nhập địa chỉ">
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="taikhoang">Tên Tài Khoản</label> <input
+									type="text" class="form-control" id="taikhoang"
+									aria-describedby="emailHelp" placeholder="Nhập tên tài khoảng" required>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="maukhaunv">Mật khẩu đăng nhập</label> <input
+									type="password" class="form-control" id="maukhaunv"
+									aria-describedby="emailHelp" placeholder="Nhập mật khẩu" required>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-check">
+									<label class="form-check-label">
+										<input type="checkbox" id="isthungan1" class="form-check-input">
+										Thu Ngân
+									</label>
+									
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input type="checkbox" id="isketoan1" class="form-check-input">
+										Kế Toán
+									</label>
+									
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="dienthoai">Số điện thoại</label> <input
+									type="text" class="form-control" id="dienthoai"
+									aria-describedby="emailHelp" placeholder="Nhập số điện thoại">
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="thue">Mã Số thuế</label> <input
+									type="text" class="form-control" id="thue"
+									aria-describedby="emailHelp" placeholder="Nhập mã số thuế">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="submitnv" class="btn btn-primary">Save
+							changes</button>
+						<button type="button" id="dong-1" class="btn btn-secondary closemd1"
+							data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<span data-toggle='modal' id="form-bophan" data-target='.form-bophan'></span>
+	<div class="modal fade form-bophan" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="title-nv"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<form id="form-bophan1">
+					<div class="modal-body" >
+						<div class="form-group">
+							<label for="exampleInputEmail1">Tên thư mục</label> <input
+								type="text" class="form-control" id="tenbp"
+								aria-describedby="emailHelp" placeholder="Nhập tên thư mục"
+								required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="doimatkhau" class="btn btn-primary"> Xác nhận</button>
+						<button type="button" class="btn btn-secondary closemd1"
+							data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+<script>
+	var id;
+	var maCha;
+	$(document).ready(function() {
+
+		//////////////////////////////////
+		loadbp();
+		loadnv(0);
+
+
+		// load nhân viên từ bộ phận
+		$(document).on("click",".jstree-anchor",function(){
+			var father = $(this).parents(".simpleTree");
+			if(father.hasClass("simpleTree1")){
+				var abc = $(this).parent(".tree");
+				$(".clickbophan").each(function(){
+					$(this).removeClass('clickbophan');
+				})
+				abc.addClass("clickbophan");
+				var clas = abc.attr("name");
+				var bpa = clas.split('-');
+				$("#tabletitle").text($(this).find("span").text());
+				loadnv(bpa[0]);
+			}else{
+				if (father.hasClass("simpleTree2")) {
+					var abc = $(this).parent(".tree-1");
+					$(".chosen").each(function(){
+						$(this).removeClass("chosen");
+					})
+					abc.addClass("chosen");
+
+				}
+			}
+
+			
+		})
+		/////////////////////////////////
+
+
+		//Xử lý form thêm nhân viên
+		$("#add-nhanvien").click(function(){
+			var bophanid =  $(".clickbophan").attr("name");
+			if(typeof bophanid == "undefined" || bophanid == "0-admin-0"){
+				alert("không thể thêm nhân viên vào thư mục admin, hãy chọn thư mục khác");
+				return false;
+			}
+			$("#tennhanvien").val("");
+			$("#diachinv").val("");
+			$("#taikhoang").val("");
+			$("#maukhaunv").val("");
+			$("#dienthoai").val("");
+			$("#thue").val("");
+			$("#isthungan1").prop('checked', false);
+			$("#isketoan1").prop('checked', false);
+			id="";
+			$("#form-nhanvien").click();
+		})
+
+		// Xác nhân chỉnh sửa hoặc thêm nhân viên
+		$("#add-nv").submit(function(){
+			if ($('#isthungan1').is(':checked')){
+				var isthungan1 = 1;
+			}else{
+				var isthungan1 = 0;
+			}
+			if ($('#isketoan1').is(':checked')){
+				var isketoan1 = 1;
+			}else{
+				var isketoan1 = 0;
+			}
+			var bophanid =  $(".clickbophan").attr("name");
+			if(typeof bophanid == "undefined"){
+				bophanid = "0-admin-0";
+			}
+			var bophanid1 = bophanid.split('-');
+			if(bophanid1[0]=="0" && id ==""){
+				alert("Không thể thêm nhân viên tại thư mục admin, hãy chọn thư mục khác!")
+				return false;
+			}
+			var NhanVienForm = {
+				"id": id,
+				"ten": $("#tennhanvien").val(),
+				"diaChi": $("#diachinv").val(),
+				"dienThoai":$("#dienthoai").val(),
+				"maSoThue":$("#thue").val(),
+				"boPhan": bophanid1[0],
+				"isKeToan": isketoan1,
+				"isThuNgan":isthungan1,
+				"tenTk": $("#taikhoang").val(),
+				"matKhau": $("#maukhaunv").val()
+			}
+			// return savenv(NhanVienForm,bophanid1[0]);
+			return save(NhanVienForm, "/ajax/nhanvien/savenhanvien",function(result){
+				loadnv(bophanid1[0]);
+				// alert(result.status)
+				$("#dong-1").click();
+			})
+		})
+		//////////////////////////////////////////////
+		// Xử lý form bộ phân ////////////////////////////////////////////
+		$(".bpbtn").each(function(){
+			$(this).click(function(){
+				var bophanid =  $(".clickbophan").attr("name");
+				var idbp = $(this).attr('id');
+				if(typeof bophanid == "undefined"){
+					bophanid = "0-admin-0";
+				}
+				var bophanid1 = bophanid.split('-');
+				if(bophanid1[0]=="0" && (idbp == "editbp2" || idbp == "deletebp2")){
+					alert("Không thể xóa hoặc chỉnh sửa thư mục admin");
+				}else{
+					if(idbp == "deletebp2"){
+						if(confirm("Xác nhận xóa thư mục")==true){
+							var BoPhan = {
+								"id": bophanid1[0],
+								"tenBP": bophanid1[1],
+								"maCha": bophanid1[2]
+							}
+							return save(BoPhan,"/ajax/nhanvien/deletebophan",function(result){
+								if(result.id == "1"){
+									$("#bophan").load("/ajax/nhanvien/listbophan", function(){
+										$(".father-tree").click();
+									});
+								}else{
+									alert(result.status);
+								}
+							})
+						}else{
+							return false;
+						}
+
+					}else{
+						if(idbp == "editbp2"){
+							id = bophanid1[0];
+							maCha = bophanid1[2];
+							$("#tenbp").val(bophanid1[1]);
+						}else{
+							id ='';
+							maCha = bophanid1[0];
+							$("#tenbp").val("");
+						}
+						$("#form-bophan").click();
+					}
+				}
+			})
+		})
+		////////////////////////////////////////////////
+		// xác nhận chỉnh sửa hoặc thêm bộ phận ////////////////
+		$("#form-bophan1").submit(function(){
+			var BoPhan = {
+				"id": id,
+				"tenBP":$("#tenbp").val(),
+				"maCha": maCha
+			}
+			// console.log(BoPhan);
+			return save(BoPhan,"/ajax/nhanvien/savebophan",function(result){
+				$("#bophan").load("/ajax/nhanvien/listbophan", function(){
+					if(result.id != "0"){
+						$(".tree"+result.id).click();
+						$(".closemd1").click();
+					}else{
+						alert(result.status);
+						$(".father-tree").click();
+					}
+				});
+			});
+		})
+		/////////////////////////////////////////////////////////
+	})
+
+
+
+	function loadbp(){
+		$("#bophan").load("/ajax/nhanvien/listbophan");
+	}
+	function loadnv(abc){
+		$("#nhanvien").load("/ajax/nhanvien/listnhanvien/"+abc+"/");
+	}
+	
+</script>
+</th:block>

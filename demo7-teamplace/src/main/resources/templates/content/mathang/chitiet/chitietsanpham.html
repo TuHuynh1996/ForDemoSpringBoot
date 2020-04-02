@@ -1,0 +1,58 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<div class="row">
+	<div class="col-xl-12">
+		<div class="breadcrumb-holder">
+			<h1 th:utext="${sanpham.tenSP}+'; Đơn vị tính: '+${sanpham.donViTinh.ten}" class="main-title float-left">Range Sliders</h1>
+			<ol class="breadcrumb float-right">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">Mặt hàng</li>
+				<li class="breadcrumb-item active">Danh sách</li>
+				<li th:utext="${sanpham.tenSP}" class="breadcrumb-item active">Danh sách</li>
+			</ol>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<!-- <h3>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h3> -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<div class="row">
+			<!--   ////////////////////////////////////////////////////////////////////////////////-->
+			<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5"  >
+				<div class="card mb-3" id="thanhphan">
+					
+
+
+											
+				</div><!-- end card-->	
+			</div>
+
+			<!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+			<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7" >
+				<div class="card mb-3"  id="dvtkhac">
+					
+
+											
+				</div><!-- end card-->	
+			</div>
+			<!-- ///////////////////////////////////////////////////////////////////////////////////////////////// -->
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	 /*<![CDATA[*/ 
+	 	var sanphamId = "[[${sanpham.id}]]"; 
+	 	var dvtId =  "[[${sanpham.donViTinh.id}]]"; 
+	 /*]]>*/
+	 
+	 $(document).ready(function(){
+	 	console.log(sanphamId);
+
+	 	$("#thanhphan").load("/ajax/mathang/chitiet/thanhphan/"+sanphamId+"/");
+	 	$("#dvtkhac").load("/ajax/mathang/chitiet/chuyendoi/"+sanphamId+"/");
+	 })
+
+</script>
+</th:block>

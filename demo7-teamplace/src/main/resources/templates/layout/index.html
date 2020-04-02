@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace=" layout/header :: header">
+
+
+
+<!-- ///////////////////////////////////////////////////////////////
+-->
+</head>
+<link href="assets/plugins/select2/css/select2.min.css" th:href="@{/assets/plugins/select2/css/select2.min.css}" rel="stylesheet" type="text/css"/>
+<!-- <link href="../assets/plugins/jstree/style.css"
+	th:href="@{/assets/plugins/jstree/style.css}" rel="stylesheet"
+	type="text/css" /> -->
+<style>
+a {
+	cursor: pointer
+}
+td{
+	font-size: 15px;
+	font-family: "Times New Roman", Times, serif;
+	/*font-family: Arial, Helvetica, sans-serif;*/
+}
+th,td{
+	line-height: 35px !important;
+	padding:3px !important;
+	text-align: center !important;
+}
+body{
+	background-color: #d9e2e2 !important;
+}
+</style>
+
+
+<body class="adminbody">
+
+	<div id="main">
+
+		<!-- top bar navigation -->
+		<div th:replace=" layout/bar :: headerbar" class="headerbar"></div>
+		<!-- End Navigation -->
+
+
+		<!-- Left Sidebar -->
+		<div th:replace=" layout/bar :: main-sidebar"
+			class="left main-sidebar"></div>
+		<!-- End Sidebar -->
+
+
+		<div class="content-page">
+
+			<!-- Start content -->
+			<div class="content">
+				<div class="container-fluid">
+					<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+					<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+				</div>
+			</div>
+
+			<!-- END content -->
+
+
+
+		</div>
+		<!-- END content-page -->
+
+		<footer class="footer">
+			<span class="text-right"> Copyright <a target="_blank"
+				href="#">Tú đẹp trai</a>
+			</span> <span class="float-right"> Powered by <a target="_blank"
+				href="https://www.pikeadmin.com"><b>Pike Admin</b></a>
+			</span>
+		</footer>
+
+
+
+		<!-- Open modal -->
+
+		<div class="modal fade bd-example-modal-sm" tabindex="-1"
+			role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" th:text="'Hello, ' + ${nhanVien.ten}">Small title</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form>
+						<div class="modal-body">
+
+							<div class="form-group">
+								<label for="maukhaucu">Nhập mật khẩu cũ</label> <input
+									type="password" class="form-control" id="maukhaucu"
+									aria-describedby="emailHelp" placeholder="Nhập mật khẩu cũ"
+									required>
+
+							</div>
+							<div class="form-group">
+								<label for="maukhaumoi">Nhập mật khẩu mới</label> <input
+									type="password" class="form-control" id="maukhaumoi"
+									aria-describedby="numberlHelp" placeholder="Nhập mật khẩu mới"
+									required> <small id="emailHelp"
+									class="form-text text-muted">Mật khẩu phải bao gồm ít
+									nhất 8 ký tự, phải có ký tự in hoa, thường và ký tự đặc biệt.</small>
+							</div>
+							<div class="form-group">
+								<label for="xacnhan">Xác nhận lại mậu khẩu</label>
+								<input type="password" class="form-control" id="xacnhan"
+									placeholder="Xác nhận lại mật khẩu" required>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" id="doimatkhau" class="btn btn-primary">Save
+								changes</button>
+							<button type="button" class="btn btn-secondary closemd1"
+								data-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- END main -->
+
+	<script src="../static/assets/js/modernizr.min.js"
+		th:src="@{/assets/js/modernizr.min.js}"></script>
+	<script src="../static/assets/js/jquery.min.js"
+		th:src="@{/assets/js/jquery.min.js}"></script>
+	<script src="../static/assets/js/moment.min.js"
+		th:src="@{/assets/js/moment.min.js}"></script>
+
+	<script src="../static/assets/js/popper.min.js"
+		th:src="@{/assets/js/popper.min.js}"></script>
+	<script src="../static/assets/js/bootstrap.min.js"
+		th:src="@{/assets/js/bootstrap.min.js}"></script>
+
+	<script src="../static/assets/js/detect.js"
+		th:src="@{/assets/js/detect.js}"></script>
+	<script src="../static/assets/js/fastclick.js"
+		th:src="@{/assets/js/fastclick.js}"></script>
+	<script src="../static/assets/js/jquery.blockUI.js"
+		th:src="@{/assets/js/jquery.blockUI.js}"></script>
+	<script src="../static/assets/js/jquery.nicescroll.js"
+		th:src="@{/assets/js/jquery.nicescroll.js}"></script>
+
+	<!-- App js -->
+	<script src="../static/assets/js/pikeadmin.js"
+		th:src="@{/assets/js/pikeadmin.js}"></script>
+
+	<!-- BEGIN Java Script for this page -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"
+		th:src="@{https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+
+	<!-- Counter-Up-->
+	<script
+		src="../static/assets/plugins/waypoints/lib/jquery.waypoints.min.js"
+		th:src="@{/assets/plugins/waypoints/lib/jquery.waypoints.min.js}"></script>
+	<script
+		src="../static/assets/plugins/counterup/jquery.counterup.min.js"
+		th:src="@{/assets/plugins/counterup/jquery.counterup.min.js}"></script>
+	<script src="../static/assets/js/jquery.contextmenu.min.js" th:src="@{/assets/js/jquery.contextmenu.min.js}"></script>
+	<script src="../static/assets/plugins/jstree/jstree.min.js" th:src="@{/assets/plugins/jstree/jstree.min.js}"></script>
+	<script src="assets/plugins/select2/js/select2.min.js" th:src="@{/assets/plugins/select2/js/select2.min.js}"></script>
+	<script src="assets/plugins/datetimepicker/js/moment.min.js" th:src="@{/assets/plugins/datetimepicker/js/moment.min.js}"></script>
+	<script src="assets/plugins/datetimepicker/js/daterangepicker.js" th:src="@{/assets/plugins/datetimepicker/js/daterangepicker.js}"></script>
+	<!-- ///////////////////////////////////////////////////////////////////// -->
+
+	<!-- END Java Script for this page -->
+	<script>
+		$(document).ready(function() {
+			$(window).on('popstate', function(event) {
+				var url = window.location.href;
+				if (url.split("").splice(-1) == "#") {
+					return false;
+				} else {
+					load(url);
+				}
+			});
+			load(window.location.href);
+			$(".open-left").click();
+
+			$("#doimatkhau").click(function() {
+
+				return doimatkhau();
+			})
+
+		});
+
+
+		function loadContent(url) {
+			window.history.pushState('', '', url);
+			load(url)
+		}
+
+		function load(url) {
+			if (url.split("").splice(-1) == "#") {
+				url = url.substring(0, url.length - 1);
+			}
+			var arr = url.split('home');
+			var string = "/ajax" + arr[1];
+			$.get(string, function(data) {
+				$('.container-fluid').html(data);
+				if (data == "") {
+					$('.container-fluid').load("/ajax/error")
+				}
+			});
+		}
+		function doimatkhau() {
+			var DoiMatKhau = {
+				"mauKhauCu" : $('#maukhaucu').val(),
+				"mauKhauMoi" : $('#maukhaumoi').val(),
+				"xacnhan" : $('#xacnhan').val(),
+				"status" : ""
+			}
+			return save(DoiMatKhau,"/ajax/doimatkhau", function(result){
+				if (result.status == "success") {
+					alert("Đổi mật khẩu thành công!");
+				} else {
+					alert("Không thành công, thông tin nhập vào không đúng!")
+				}
+			});
+
+		}
+		function save(oj, url, func){
+			$.ajax({
+				type : 'post',
+				contentType : 'application/json; charset=utf-8',
+				dataType : 'json',
+				url : url,
+				data : JSON.stringify(oj),
+				cache : false,
+				success : function(result) {
+					func(result);
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					// console.log('request failed :' + errorThrown);
+					alert(jqXHR.status+":"+ textStatus + errorThrown);
+				}
+			})
+			return false;
+		}
+	</script>
+</body>
+</html>

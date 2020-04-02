@@ -1,0 +1,48 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<thead>
+	<tr>
+		<th>STT</th>
+		<th>Tên</th>
+		<th>DVT</th>
+		<th>Giá</th>
+		<th>Giảm</th>
+		<th>SL</th>
+		<th>Ghi chú</th>
+		<th>Xóa</th>
+	</tr>
+</thead>
+<tbody class="text-nowrap" id="thudondadat">
+	<tr th:each="chungtu,iterator:${chungtu}" th:class="${chungtu.name}" th:name="${chungtu.name}">
+		<td th:utext="${iterator.count}"> </td>
+		<td th:utext="${chungtu.sanPham.tenSP}"> </td>
+		<td th:utext="${chungtu.maDVT.ten}"> </td>
+		<td th:utext="${chungtu.donGia}"></td>
+		<td th:utext="${chungtu.giam}"></td>
+		<td ><input th:value="${chungtu.soLuong}" type="number" size="10" style="width:50px;" class="form-control qd-select soLuong" min="1" value="1" required></td>
+		<td class="add-delete1" style="display: none;"><button type="button" class="btn btn-success btn-sm add-thucdon">Thêm</button></td>
+		<td class="show"><input th:value="${chungtu.ghiChu}" type="text" size="10" style="width:200px;" class="form-control qd-select ghichu"></td>
+		<td class="show"> <a class="btn btn-danger btn-sm delete-btn" style="color: white" ><i class="fa fa-trash-o"></i></a> </td>
+	</tr>
+</tbody>	
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var stt = $("#thudondadat").parents(".container-fluid").find("#listthucdon").find("tr");
+		for(let i = 0; i < stt.size(); i++){
+			if($("#thudondadat").find("."+stt.eq(i).attr('class')).size() != 0){
+				stt.eq(i).remove();
+			}
+		}
+		addstt(stt, 1);
+		$("#thudondadat").on("click",".delete-btn", function(){
+			var add = $(this).parents("tr")
+			$("#listthucdon").append(add)
+			$("#listthucdon").find(".add-delete1").show(0);
+			$("#listthucdon").find(".show").hide();
+			var stt2 = $("#listthucdon").find("tr");
+			addstt(stt2, 0);
+		})
+
+	})
+</script>
+</th:block>

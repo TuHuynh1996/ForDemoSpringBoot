@@ -1,0 +1,109 @@
+
+
+<th:block  xmlns:th="http://www.thymeleaf.org">
+<form id="form-khuvuc">
+	<table class="table table-bordered table-hover display" style="margin-top:10px;">
+		<thead>
+			<tr>
+				<th style="line-height: 35px; padding:3px;text-align: center;" align="center" scope="col">Ký hiệu</th>
+				<th style="line-height: 35px; padding:3px;text-align: center;" align="center" scope="col">Tên khu vực</th>
+				<th style="line-height: 35px; padding:3px;text-align: center;" align="center">Thao tác</th>
+			</tr>
+		</thead>
+		<tbody class="text-nowrap">
+			<tr  th:each="khuvuc:${khuvuc}" class="khuvuc" th:name="${khuvuc.id}" th:id="'khuvuc'+${khuvuc.id}">
+				<td align="center" th:name="${khuvuc.id}" th:utext="${khuvuc.id}" scope="row">Mark</td>
+				<td align="center" th:utext="${khuvuc.tenKV}">Otto</td>
+				<td style="color: white;">
+					<a class="btn btn-primary btn-sm edit-khuvuc"  data-toggle="modal" data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+					<a class="btn btn-danger btn-sm delete-khuvuc" data-placement="top" data-toggle="tooltip" data-title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<input type="submit" class="submit" style="display: none" name="">
+</form>
+<div  style="display: none;" class="noob"></div>
+<table style="display: none;">
+	<tbody class="form-add">
+		<tr class="add dle">
+			<td>
+				<input type="text" placeholder="Ký hiệu khu vực" class="form-control kihieu" required>
+			</td>
+			<td >
+				<input type="text" placeholder="Tên khu vực" class="form-control tenKhuVuc" required>
+			</td>
+			<td>
+				<button type="button" class="btn-danger btn-sm remove-add"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		$("#form-khuvuc").on("click",".edit-khuvuc", function(){
+			var active = $("#myTabContent5 .active");
+			var parent = $(this).parents("tr");
+			parent.hide();
+			parent.after(active.find(".form-add").html());
+			var edit = parent.next().removeClass("add").addClass("edit-selecter").find("td");
+			edit.eq(0).find("input").val(parent.find("td").eq(0).html());
+			edit.eq(1).find("input").val(parent.find("td").eq(1).html());
+		})
+
+		$("#form-khuvuc").submit(function(){
+			// alert("aaaaaaaaaaaaaaaaaaaaa");
+			var ida = $(this).find(".kihieu");
+			var khuvuca = $(this).find(".tenKhuVuc");
+			var id = [];
+			var tenKhuVuc = [];
+			for(let i = 0; i < ida.size(); i++){
+				id[i] = ida.eq(i).val();
+				tenKhuVuc[i] = khuvuca.eq(i).val();
+			}
+			for(let i = 0; i < id.length; i++){
+				for(let j = i + 1; j < id.length; j++){
+					if(id[i] == id[j]){
+						alert("Không được trùng kí hiệu thêm vào");
+						return false;
+					}
+				}
+			}
+			var AddKhuVucForm = {
+				id:id,
+				tenKhuVuc:tenKhuVuc
+			}
+			return save(AddKhuVucForm,"/ajax/banphong/listkhuvuc/add",function(result){
+				$("#body-khuvuc").load("/ajax/banphong/listkhuvuc");
+				$("#body-banphong").load("/ajax/banphong/listbanphong");
+				$("#thungan").load("/ajax/banphong/thungan1");
+			})
+		})
+		$("#form-khuvuc").on("click",".delete-khuvuc", function(){
+			var a = $(this).parents("tr");
+			var idbp = a.find("td").html();
+			Sms = {
+				id:idbp,
+				status:""
+			}
+			save(Sms,"/ajax/banphong/listkhuvuc/delete",function(result){
+				if(result.id = '1'){
+					a.remove();
+					$("#thungan").load("/ajax/banphong/thungan1");
+				}else{
+					$("#body-khuvuc").load("/ajax/banphong/listkhuvuc");
+				}
+			})
+			// $(".noob").load("/ajax/banphong/listkhuvuc/delete/"+idbp, function(result){
+			// 	if(result = '{"id":"1","status":"Thành công"}'){
+			// 		a.remove();
+			// 	}else{
+			// 		$("#body-khuvuc").load("/ajax/banphong/listkhuvuc");
+			// 	}
+			// })
+		})
+	})
+
+</script>
+</th:block>

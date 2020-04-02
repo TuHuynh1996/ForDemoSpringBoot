@@ -1,0 +1,111 @@
+
+<th:block xmlns:th="http://www.thymeleaf.org">
+<style>
+#external-events .fc-event {
+	margin: 10px 0;
+	cursor: pointer;
+}
+
+#calendar {
+	width: 100%;
+}
+
+.fc-event {
+	font-size: 1em;
+	border-radius: 2px;
+	border: none;
+	padding: 5px;
+}
+
+.fc-day-grid-event .fc-content {
+	color: #fff;
+}
+
+.fc-button {
+	background: #eaeaea;
+	border: none;
+	color: #666b6f;
+	margin: 0 3px !important;
+	padding: 5px 12px !important;
+	text-transform: capitalize;
+	height: auto !important;
+	box-shadow: none !important;
+	border-radius: 3px !important;
+}
+
+.fc-state-down, .fc-state-active, .fc-state-disabled {
+	background-color: #009ffc !important;
+	color: #ffffff !important;
+	text-shadow: none !important;
+}
+
+.fc-toolbar h2 {
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 28px;
+	text-transform: uppercase;
+}
+
+.fc th.fc-widget-header {
+	background: #e6e6e6;
+	font-size: 13px;
+	text-transform: uppercase;
+	line-height: 18px;
+	padding: 10px 0px;
+}
+
+.fc-unthemed th, .fc-unthemed td, .fc-unthemed thead, .fc-unthemed tbody,
+	.fc-unthemed .fc-divider, .fc-unthemed .fc-row, .fc-unthemed .fc-popover
+	{
+	border-color: #eff1f3;
+}
+</style>
+	<div class="row">
+		<div class="col-xl-12">
+			<div class="breadcrumb-holder">
+				<h1 class="main-title float-left">Calendar</h1>
+				<ol class="breadcrumb float-right">
+					<li class="breadcrumb-item">Home</li>
+					<li class="breadcrumb-item active">Calendar</li>
+				</ol>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+	<!-- end row -->
+
+
+	<div class="row">
+		<div class="col-xs-12 col-md-4 col-lg-4 col-xl-3">
+			<div class="card-box tilebox-one noradius">
+				<div id='external-events'>
+					<h4>Draggable Events</h4>
+					<p>Drag and drop your event in the calendar</p>
+					<div class='fc-event bg-primary'>New meeting</div>
+					<div class='fc-event bg-warning'>My Event 2</div>
+					<div class='fc-event bg-danger'>My Event 3</div>
+					<div class='fc-event bg-primary'>Meeting 2</div>
+					<div class='fc-event bg-info'>Task number 2</div>
+					<p>
+						<input type='checkbox' id='drop-remove' /> <label
+							for='drop-remove'>remove after drop</label>
+					</p>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-md-8 col-lg-8 col-xl-9">
+			<div class="card-box tilebox-one noradius">
+				<div id="calendar"></div>
+				<div class="clearfix"></div>
+
+			</div>
+		</div>
+	</div>
+</th:block>
+	<!-- end row -->
+
+
+
+

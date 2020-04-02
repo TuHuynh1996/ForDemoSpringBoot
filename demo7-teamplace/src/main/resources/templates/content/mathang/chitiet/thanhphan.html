@@ -1,0 +1,150 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+
+<div class="card-header">
+	<h3><i class="fa fa-table"></i> Thành phần</h3>
+</div>
+<form id="form-thanhphan">
+	<div class="card-body" style="overflow: auto;">
+		<table id="table-form" class="table table-responsive-xl table-bordered table-hover display">
+			<thead>
+				<tr>
+					<th scope="col">Tên thành phần</th>
+					<th scope="col">Tên đơn vị tính</th>
+					<th scope="col">Số lượng</th>
+					<th scope="col">Tác vụ</th>
+				</tr>
+			</thead>
+			<tbody id="body-form" class="text-nowrap">
+				<tr th:each="thanhphan:${thanhphan}" class="thanhphan" th:name="${thanhphan.id}" th:id="'thanhphan'+${thanhphan.id}">
+					<td align="center" th:name="${thanhphan.thanhPhan.id}" th:utext="${thanhphan.thanhPhan.tenSP}" scope="row">Mark</td>
+					<td align="center" th:name="${thanhphan.dvtThanhPhan.id}" th:utext="${thanhphan.dvtThanhPhan.ten}">Otto</td>
+					<td align="center" th:utext="${thanhphan.soLuong}"></td>
+					<td style="color: white;">
+						<a class="btn btn-primary btn-sm edit-tp"  data-toggle="modal" data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+						<a class="btn btn-danger btn-sm delete-tp" data-placement="top" data-toggle="tooltip" data-title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="card-header">
+			<button type="button" id="add-button" class="btn btn-success">Thêm thành phần</button>
+			<button type="submit" id="save-button" class="btn btn-primary float-right">Lưu và đồng bộ</button>
+		</div>
+	</div>	
+</form>
+<div  style="display: none;" id="noob"></div>
+<table style="display: none;">
+	<tbody id="form-add">
+		<tr class="add dle">
+			<td class="thanhphan-select">
+				<select th:remove="all-but-first" class="form-control form-control-sm select2 " name="state" required>
+					<option th:each="thanhphanall:${thanhphanall}" th:value="${thanhphanall.id}" th:utext="${thanhphanall.tenSP}" value="0">Hàng Hóa</option>
+					<option value="1">Nguyên Liệu</option>
+					<option value="2">Sản Phẩm Chế Biến</option>
+					<option value="3">Dịch Vụ Tính Theo Giờ</option>
+				</select>
+			</td>
+			<td class="dvt-select">
+				<select th:remove="all-but-first" class="form-control form-control-sm select2 " name="state" required>
+					<option th:each="dvt:${dvt}" th:value="${dvt.id}" th:utext="${dvt.ten}" value="0">Hàng Hóa</option>
+					<option value="1">Nguyên Liệu</option>
+					<option value="2">Sản Phẩm Chế Biến</option>
+					<option value="3">Dịch Vụ Tính Theo Giờ</option>
+				</select>
+			</td>
+			<td>
+				<input type="number" step="any" size="10" style="width:60px;" class="form-control sl-select" min="0" required>
+			</td>
+			<td>
+				<button type="button" class="btn-danger btn-sm remove-add"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		var id;
+		var n = $("#form-add").html();
+		$("#add-button").click(function(){
+			$("#body-form").append(n);
+			$("#table-form").find('.select2').select2();
+		})
+		$(document).on("click",".remove-add",function(){
+				var add = $(this).parents(".dle");
+				add.prev().show();
+				add.remove();
+
+		})
+		$("#form-thanhphan").submit(function(){
+			$(".save-edit").each(function(){
+				$(this).click();
+			})
+			var number = $("#body-form").find(".add")
+			var thanhphana = [];
+			var dvta = [];
+			var sla = [];
+			for(let i = 0; i < number.size(); i++){
+				thanhphana[i] = number.eq(i).find(".thanhphan-select").find("select option:selected").val();
+				dvta[i] = number.eq(i).find(".dvt-select").find("select option:selected").val();
+				sla[i] = number.eq(i).find(".sl-select").val();
+			}
+			var thanhPhanForm = {
+				"sanphamId": sanphamId,
+				"dvtId": dvtId,
+				"listTen" :thanhphana,
+				"listDVT" :dvta,
+				"listSoLuong":sla
+			}
+			return save(thanhPhanForm,"/ajax/mathang/chitiet/luuthanhphan",function(result){
+				$("#thanhphan").load("/ajax/mathang/chitiet/thanhphan/"+sanphamId+"/");
+			});
+		});
+		$(".delete-tp").click(function(){
+			var idtp = $(this).parents("tr");
+			$("#noob").load("/ajax/mathang/chitiet/thanhphan/delete/" + idtp.attr("name"),function(){
+				idtp.remove();
+			})
+		})
+		$(".edit-tp").click(function(){
+			var parent = $(this).parents("tr");
+			parent.hide();
+			parent.after($("#form-add").html());
+			$("#table-form").find('.select2').select2();
+			var edit = parent.next().removeClass("add").addClass("edit-selecter").find("td");
+
+			// edit.eq(0).find("select").val(parent.find("td").eq(0).attr("name"));
+			edit.eq(0).find("select").find('option[value="'+parent.find("td").eq(0).attr("name")+'"]').attr("selected","selected");
+			// edit.eq(1).find("select").val(parent.find("td").eq(1).attr("name"));
+			edit.eq(1).find("select").find('option[value="'+parent.find("td").eq(1).attr("name")+'"]').attr("selected","selected");
+			$("#table-form").find('.select2').select2();
+			edit.eq(2).find("input").val(parent.find("td").eq(2).html());
+			edit.eq(3).find("button").after('<button type="button" class="btn-primary btn-sm save-edit"><i class="fa fa-check-square-o bigfonts"></i></button>');
+		})
+		$("#form-thanhphan").on("click",".save-edit", function(){
+			var b = $(this).parents("tr")
+			var a = b.find("td");
+			var thanhPhanEditForm = {
+				"id": b.prev().attr("name"),
+				"sanPhamId": sanphamId,
+				"donViTinhId": dvtId,
+				"thanhPhanId": a.eq(0).find("select option:selected").val(),
+				"dvtThanhPhan":a.eq(1).find("select option:selected").val(),
+				"soLuong":a.eq(2).find("input").val()
+			}
+			save(thanhPhanEditForm,"/ajax/mathang/chitiet/thanhphan/edit",function(result){
+				if(result != null){
+					var c = b.prev().find("td");
+					c.eq(0).html(result.thanhPhanId);
+					c.eq(1).html(result.dvtThanhPhan);
+					c.eq(2).html(result.soLuong);
+					a.eq(3).find(".remove-add").click();
+				}
+			})
+		})
+	})
+
+</script>
+</th:block>

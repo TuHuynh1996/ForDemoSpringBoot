@@ -1,0 +1,215 @@
+
+<div class="row">
+	<div class="col-xl-12">
+		<div class="breadcrumb-holder">
+			<h1 class="main-title float-left">Range Sliders</h1>
+			<ol class="breadcrumb float-right">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">Range Sliders</li>
+			</ol>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<!-- <h3>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h3> -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<div class="row">
+			<!--      ////////////////////////////////////////////////////////////////////////////////-->
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"  >
+				<div class="card mb-3">
+					<div class="card-header">
+						<h3><i class="fa fa-table"></i> Danh sách loại giá bán hàng</h3>
+					</div>
+					<div class="card-header">
+						<button type="button" id="add-button" class="btn btn-success">Thêm Loại Bảng Giá</button>
+					</div>
+
+					<div class="card-body" id="loaibanggia">
+
+
+					</div>							
+				</div><!-- end card-->	
+			</div>
+
+			<!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" >
+				<div class="card mb-3">
+					<div class="card-header">
+						<h3><i class="fa fa-table"></i> Danh sách đơn vị tính</h3>
+					</div>
+					<div class="card-header">
+						<button type="button" id="add-button-dvt" class="btn btn-success">Thêm đơn vị tính</button>
+					</div>
+					<div class="card-body" id="loaidvt">
+
+
+					</div>							
+				</div><!-- end card-->	
+			</div>
+			<!-- ///////////////////////////////////////////////////////////////////////////////////////////////// -->
+		</div>
+	</div>
+</div>
+<span data-toggle='modal' id="form-loaibanggia" data-target='.form-loaibanggia'></span>
+	<div class="modal fade form-loaibanggia" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="title-nv"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form id="form-lbg1">
+					<div class="modal-body" >
+						<div class="form-group">
+							<label for="malbg">Mã</label> 
+							<input type="text" class="form-control" id="malbg"
+								aria-describedby="emailHelp" placeholder="Nhập mã bảng giá"
+								readonly required>
+						</div>
+						<div class="form-group">
+							<label for="tenlbg">Tên loại bảng giá</label> 
+							<input type="text" class="form-control" id="tenlbg"
+								aria-describedby="emailHelp" placeholder="Nhập tên bảng giá"
+								required>
+						</div>
+						<div class="form-check">
+							<label class="form-check-label">
+								<input type="checkbox" id="macdinhbg" class="form-check-input">
+								Mặc định
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="spsm" class="btn btn-primary"> Xác nhận</button>
+						<button type="button" class="btn btn-secondary closelbg1"
+							data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+<span data-toggle='modal' id="form-donvitinh" data-target='.form-donvitinh'></span>
+	<div class="modal fade form-donvitinh" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="title-nv"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form id="form-lbg1">
+					<div class="modal-body" >
+						<div class="form-group">
+							<label for="tendvt">Tên loại bảng giá</label> 
+							<input type="text" class="form-control" id="tendvt"
+								aria-describedby="emailHelp" placeholder="Nhập tên bảng giá"
+								required>
+						</div>
+						<div class="form-check">
+							<label class="form-check-label">
+								<input type="checkbox" id="macdinhdvt" class="form-check-input">
+								Mặc định
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="dvt" class="btn btn-primary"> Xác nhận</button>
+						<button type="button" class="btn btn-secondary closedvt1"
+							data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+<div class="contextMenu" id="myMenu1" style="display: none;">
+	<ul>
+		<li id="edit-l">Chỉnh sửa</li>
+		<li id="delete-l"> Xóa</li>
+	</ul>
+</div>
+<script type="text/javascript">
+	var id;
+	$(document).ready(function(){
+		$("#add-button").click(function(){
+			$("#malbg").val("");
+			$('#malbg').prop('readonly', false);
+			$("#tenlbg").val("");
+			$("#form-loaibanggia").click();
+		});
+
+		$("#form-lbg1").submit(function(){
+			if($("#macdinhbg").is(":checked")){
+				var macdinh = 1;
+			}else{
+				var macdinh = 0;
+			}
+			var loaiBangGia = {
+				"id": $("#malbg").val(),
+				"tenBG": $("#tenlbg").val(),
+				"macDinh": macdinh
+			}
+			console.log(loaiBangGia);
+			var attr = $("#malbg").attr('readonly');
+			if (typeof attr !== typeof undefined && attr !== false) {
+				return save(loaiBangGia,"/ajax/mathang/editlbg", function(result){
+					$(".closelbg1").click();
+					$("#loaibanggia").load("/ajax/mathang/loaibanggia");
+				});
+			}else{
+				return save(loaiBangGia,"/ajax/mathang/addlbg", function(result){
+					if(result.id == 0){
+						alert(result.status);
+					}else{
+						$(".closelbg1").click();
+						$("#loaibanggia").load("/ajax/mathang/loaibanggia");
+					}
+					// console.log(result);
+				});
+			}
+			return false;
+
+		})
+
+		$("#add-button-dvt").click(function(){
+			id = "";
+			$("#tendvt").val("");
+			$("#macdinhdvt").prop('checked', false);
+			$("#form-donvitinh").click();
+		})
+
+		$(".form-donvitinh").submit(function(){
+			if($("#macdinhdvt").is(":checked")){
+				var macdinh = 1;
+			}else{
+				var macdinh = 0;
+			}
+			// return false;
+			var donvitinh = {
+				"id": id,
+				"ten": $("#tendvt").val(),
+				"macDinh": macdinh
+			}
+			console.log(donvitinh);
+			return save(donvitinh,"/ajax/mathang/savedvt", function(result){
+				console.log(result);
+				$("#loaidvt").load("/ajax/mathang/donvitinh");
+				$(".closedvt1").click();
+
+			})
+		})
+
+
+		$("#loaibanggia").load("/ajax/mathang/loaibanggia");
+		$("#loaidvt").load("/ajax/mathang/donvitinh");
+	})
+	
+</script>

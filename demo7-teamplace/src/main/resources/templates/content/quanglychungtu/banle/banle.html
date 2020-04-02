@@ -1,0 +1,171 @@
+<div class="row">
+	<div class="col-xl-12">
+		<div class="breadcrumb-holder">
+			<h1 class="main-title float-left">Chứng Từ</h1>
+			<ol class="breadcrumb float-right">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">Chứng Từ</li>
+				<li class="breadcrumb-item active">Bán Lẻ</li>
+			</ol>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<!-- <h3>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h3> -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<div class="row">
+			<!-- Khu vực bảng danh sác nhan viên //////////////////////////////////////////////////////////////////////////////////////// -->
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" >
+				<div class="row">
+
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="card mb-3">
+							<div class="card-header" >
+								<div class="row">
+									<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+										<b style="float: right; margin-top: 4px">Từ ngày:</b>
+									</div>
+									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+										<input type="text" class="form-control from" name="singledatepicker" style="background-color: white;float: left;" readonly="readonly"/>
+									</div>
+									<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+										<b style="float: right; margin-top: 4px">Đến ngày:</b>
+									</div>
+									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+										<input type="text" class="form-control to" name="singledatepicker" style="background-color: white;float: left;" readonly="readonly"/>
+									</div>
+									<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+										<input type="submit" class="btn btn-success xacnhan" value="Xác Nhận" name="">
+									</div>
+								</div>
+								<script>
+									$(function() {
+										$('input[name="singledatepicker"]').daterangepicker({
+											singleDatePicker: true,
+											showDropdowns: true
+										});
+									});
+								</script>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive"  id="chungtu-banle">
+									<table class="table table-bordered table-hover display">
+										<thead>
+											
+												<tr>
+													<th colspan="3">Chứng từ</th>
+
+													<th colspan="4" style="background-color:#f7f7f7;">Hóa đơn</th>
+
+													<th rowspan="2">Khách hàng</th>
+													<th rowspan="2">Thu ngân</th>
+													<th rowspan="2">Nhân viên phục vụ</th>
+
+													<th rowspan="2">Ghi chú</th>
+												</tr>
+												<tr>
+													<th >Số chứng từ</th>
+													<th >Số bàn</th>
+													<th >Ngày</th>
+
+													<th style="background-color:#f7f7f7;">Giảm(%)</th>
+													<th style="background-color:#f7f7f7;">Thuế VAT(%)</th>
+													<th style="background-color:#f7f7f7;">Phí PV(%)</th>
+													<th style="background-color:#f7f7f7;">Thanh Toán</th>
+<!-- 
+													<th >Ngày vào</th>
+													<th >Thời gian</th>
+													<th >Số khách</th>
+													<th >Khách hàng</th> -->
+												</tr>
+											
+										</thead>
+										<tbody class="text-nowrap" id="list-chungtu">
+											<td>
+												<tr></tr>
+												<tr></tr>
+												<tr></tr>
+												<tr></tr>
+												<tr></tr>
+												<tr></tr>
+												<tr></tr>
+											</td>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ///////////////////////////////////////////////////////////////////////////////////////////////// -->
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var today = new Date();
+		if(today.getMonth() == 0){
+			today.setMonth(11)
+			today.setFullYear(today.getFullYear() - 1)
+		}else{
+			today.setMonth(today.getMonth() - 1);
+		}
+		var date = (today.getMonth() + 1)+'/'+today.getDate()+'/'+today.getFullYear();
+		$(".from").val(date);
+		getlist();
+		$(".xacnhan").click(function(){
+			getlist();
+		})
+
+	})
+	function getlist(){
+		var from = $(".from").val();
+		var to = $(".to").val();
+		console.log(from + "       " +to)
+		$.getJSON( "/ajax/quanglychungtu/banle/getbanle?from="+from+"&to="+to, function( data ) {
+			console.log(data)
+			$("#list-chungtu").empty();
+			for(let i = 0; i < data.length; i++){
+				var khachHang, thuNgan, nhanVien, banPhong;
+				if(data[i].khachHang!=null){
+					khachHang = data[i].khachHang.ten;
+				}else{
+					khachHang = "";
+				}
+				if(data[i].thuNgan!=null){
+					thuNgan = data[i].thuNgan.ten;
+				}else{
+					thuNgan = "";
+				}
+				if(data[i].nhanVien!=null){
+					nhanVien = data[i].nhanVien.ten;
+				}else{
+					nhanVien = "";
+				}
+				if(data[i].banPhong!=null){
+					banPhong = data[i].banPhong.id;
+				}else{
+					banPhong = "";
+				}
+				var ngayCT = data[i].ngayCT.split("T");
+				$("#list-chungtu").append("<tr>"
+										+"<td>"+ data[i].id +"</td>"		// Số chứng từ
+										+"<td>"+ banPhong +"</td>"		// Số bàn
+										+"<td>"+ ngayCT[0] +"</td>"		// Ngày
+										+"<td>"+ data[i].giam +"</td>"		// Giảm(%)
+										+"<td>"+ data[i].thueVAT +"</td>"		// Thuế VAT(%)
+										+"<td>"+ data[i].phiPV +"</td>"		// Phí PV(%)
+										+"<td>"+ data[i].soTien +"</td>"		// Thanh Toán
+										+"<td>"+ khachHang +"</td>"		// Khách hàng
+										+"<td>"+ thuNgan +"</td>"		// Thu ngân
+										+"<td>"+ nhanVien +"</td>"		// Nhân Vien
+										+"<td>"+ data[i].noiDung +"</td>"		// Ghi chú
+										+"</tr>")
+			}
+		});
+	}
+</script>

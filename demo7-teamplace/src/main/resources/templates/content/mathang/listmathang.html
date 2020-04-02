@@ -1,0 +1,254 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<table id="listkhachhang"
+class="table table-bordered table-hover display">
+	<thead>
+		<tr>
+			<th rowspan="2" align="center" style="line-height: 70px">Mã</th>
+			<th rowspan="2" align="center" style="line-height: 70px">Tên</th>
+			<th rowspan="2" align="center" style="line-height: 70px">DVT</th>
+			<th rowspan="2" align="center" style="line-height: 70px">SLDK</th>
+			<th rowspan="2" align="center" style="line-height: 70px">GTDK</th>
+			<th rowspan="2" align="center" style="line-height: 70px">Menu</th>
+			<th colspan="2" align="center" th:each="lbg1 :${lbg}" th:utext="${lbg1.tenBG}"></th>
+			<!-- <th>Địa Chỉ</th>
+			<th>Thu DK</th>
+			<th>Trả DK</th>
+			<th>Thu CK</th>
+			<th>Trả CK</th>
+			<th>Mã Số Thuế</th> -->
+		</tr>
+		<tr>
+			<th:block th:each="a:${lbg}">
+		        <td>Đơn giá</td>
+		        <td>Giảm</td>
+		    </th:block>
+	    </tr>
+	</thead>
+	<tbody class="text-nowrap">
+		<tr class="listsanpham" th:id="'sp'+${sanpham.id}" th:each="sanpham : ${sanpham}">
+			<td th:utext = "${sanpham.id}">Mã</td>
+			<td th:utext = "${sanpham.tenSP}">Tên</td>
+			<td th:utext = "${sanpham.donViTinh.ten}" th:name="${sanpham.donViTinh.id}">DVT</td>
+			<td th:utext = "${sanpham.SLDK}">DVT</td>
+			<td th:utext = "${sanpham.GTDK}">DVT</td>
+			<td align="center"><i th:if="${sanpham.isMenu == 1}" class="fa fa-check-square bigfonts"> </i></td>
+			<th:block th:each="bg:${sanpham.bangGia}" >
+		        <td class="dongiax" th:utext="${bg.donGia}">Đơn giá</td>
+		        <td class="giamx" th:utext="${bg.giam}">Giảm</td>
+		    </th:block>
+		</tr>
+	</tbody>
+</table>
+<span data-toggle='modal' id="form-sanpham" data-target='.form-sanpham'></span>
+	<div class="modal fade form-sanpham" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="title-nv">Small
+						title</h5>
+					<button type="button" class="close close_sp" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form id="add-sp">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="tensanpham">Tên Sản Phẩm</label> <input
+									type="text" class="form-control" id="tensanpham"
+									 placeholder="Nhập tên sản phẩm" required>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="dvt">Đơn vị tính</label> 
+									<select class="form-control form-control-sm" id="dvtselect" required>
+										<option th:each="dvt:${dvt}" th:value="${dvt.id}" th:name="${dvt.id}" th:utext="${dvt.ten}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="sldk">Số lượng đầu kỳ</label> <input
+									type="number" step="any"  class="form-control" id="sldk"
+									 placeholder="Nhập đơn vị tính" required>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="gtdk">Giá trị tồn kho đầu kỳ</label> <input
+									type="number" step="any" class="form-control" id="gtdk"
+									 placeholder="Nhập đơn vị tính" required>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-check">
+									<label class="form-check-label">
+										<input type="checkbox" id="ismenu" class="form-check-input">
+										Hiển thị trên menu
+									</label>
+								</div>
+							</div>
+							<th:block th:each="lbg3 :${lbg}">
+								<div style="border: 1px solid #e6e6e6; " class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+									<p th:utext="${lbg3.tenBG}"> </p>
+									<div class="row">
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+											Đơn Giá
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+											Giảm
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+											<div class="form-group">
+												<input type="number" step="any" class="form-control dongiay" th:id="'dongia-'+${lbg3.id}"
+												aria-describedby="emailHelp" placeholder="Đơn giá" required>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+											<div class="form-group">
+												<input type="number" step="any" class="form-control giamy" th:id="'giam-'+${lbg3.id}"
+												aria-describedby="emailHelp" placeholder="Giảm" required>
+											</div>
+										</div>
+									</div>
+								</div>
+							</th:block>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="submitsp" class="btn btn-primary">Save
+							changes</button>
+						<button type="button" id="dong-sp" class="btn btn-secondary closesp"
+							data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+<div class="contextMenu" id="myMenu1" style="display: none;">
+	<ul>
+		<li id="detail-1">Chi tiết</li>
+		<li id="edit-l">Chỉnh sửa</li>
+		<li id="change-l">Chuyển</li>
+		<li id="delete-l"> Xóa</li>
+	</ul>
+</div>
+<script>
+
+	$(document).ready(function() {
+		$("#add-sp").submit(function(){
+			var spname =  $(".clicknhomsp").attr("name");
+			if(typeof spname == "undefined"){
+				spname = "0-admin-0-0";
+			}
+			var sparray = spname.split('-');
+			if(sparray[0]=="0" && id ==""){
+				alert("Không thể thêm sản phẩm tại thư mục gốc, hãy chọn thư mục khác!")
+				return false;
+			}
+
+			if ($('#ismenu').is(':checked')){
+				var isnenu = 1;
+			}else{
+				var isnenu = 0;
+			}
+			var dongia = [];
+			var giam = [];
+			var dongiay = $(".dongiay");
+			var giamy = $(".giamy");
+			for(let i = 0; i < $(".dongiay").size(); i++ ){
+				dongia[i] = dongiay.eq(i).val();
+				giam[i] = giamy.eq(i).val();
+			}
+			// console.log(sparray);
+			$("#dong-sp").click();
+			var MatHangForm = {
+				"id":id,
+				"ten":$("#tensanpham").val(),
+				"maNhom": sparray[0],
+				"dvt":$( "#dvtselect option:selected" ).attr("name"),
+				"sLDK":$("#sldk").val(),
+				"gTDK":$("#gtdk").val(),
+				"isMenu":isnenu,
+				"donGia":dongia,
+				"giam":giam
+			}
+			// console.log(MatHangForm);
+			return save(MatHangForm,"/ajax/mathang/savesp", function(result){
+				console.log(result);
+				if(result.id == "0"){
+					alert(result.status)
+				}
+				loadlsp(sparray[0]);
+
+				$(".modal-backdrop").remove();
+			});
+		})
+
+		$(".listsanpham").each(function(){
+			$(this).contextMenu('myMenu1', {
+				bindings: {
+					'detail-1' : function(t){
+						var n = $("#"+t.id).find("td");
+						window.history.pushState('', '',"/home/mathang/chitiet/"+n.eq(0).html()+"/");
+						$(".container-fluid").load("/ajax/mathang/chitiet/"+n.eq(0).html()+"/");
+					},
+					'edit-l': function(t) {
+						var n = $("#"+t.id).find("td");
+						id = n.eq(0).html();
+						var dvt = n.eq(2).attr("name");
+						console.log(dvt);
+						$("#tensanpham").val(n.eq(1).html());
+						$("#dvtselect").val(dvt);
+						$("#sldk").val(n.eq(3).html());
+						$("#gtdk").val(n.eq(4).html());
+						if(n.eq(5).html() != ""){
+							$("#ismenu").prop('checked', true);
+						}else{
+							$("#ismenu").prop('checked', false);
+						}
+						var dongiax = $("#"+t.id).find(".dongiax");
+						var giamx = $("#"+t.id).find(".giamx");
+						var dongiay = $(".dongiay");
+						var giamy = $(".giamy");
+						for(let i =0; i < dongiax.size(); i++){
+							dongiay.eq(i).val(dongiax.eq(i).html());
+							giamy.eq(i).val(giamx.eq(i).html());
+						}
+						$("#form-sanpham").click();
+					},
+					'change-l': function(t) {
+						var n = $("#"+t.id).find("td");
+						id = n.eq(0).html();
+						$("#tree-nhomkhach").click();
+					},
+					'delete-l': function(t) {
+						if(confirm("Bạn có thực sự muốn xóa")){
+							var m = $("#"+t.id);
+							var n = m.find("td").html();
+							var sms = {
+								id: n,
+								status:""
+							}
+							return save(sms,"/ajax/mathang/deletesp", function(result){
+								if(result.id != "1"){
+									alert(result.status);
+								}else{
+									m.remove();
+								}
+							})
+						}
+					}
+				}
+			});
+		})
+	})
+
+
+
+</script>
+</th:block>

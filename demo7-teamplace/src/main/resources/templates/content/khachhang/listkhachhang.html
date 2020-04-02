@@ -1,0 +1,85 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<table id="listkhachhang"
+class="table table-bordered table-hover display">
+	<thead>
+		<tr>
+			<th>Mã</th>
+			<th>Họ Tên</th>
+			<th>Điện Thoại</th>
+			<th>Địa Chỉ</th>
+			<th>Thu DK</th>
+			<th>Trả DK</th>
+			<th>Thu CK</th>
+			<th>Trả CK</th>
+			<th>Mã Số Thuế</th>
+		</tr>
+	</thead>
+	<tbody class="text-nowrap">
+		<tr class="listkhachhang" th:id="'kh'+${listkhach.id}" th:each="listkhach : ${listkhach}">
+			<td th:utext = "${listkhach.id}">Mã</td>
+			<td th:utext = "${listkhach.ten}">Họ Tên</td>
+			<td th:utext = "${listkhach.dienThoai}"></td>
+			<td th:utext = "${listkhach.diaChi}"></td>
+			<td th:utext = "${listkhach.thuDK}">Đăng Ndập</td>
+			<td th:utext = "${listkhach.traDK}">Mật Kdẩu</td>
+			<td >Chưa làm</td>
+			<td >Chưa làm</td>
+			<td th:utext = "${listkhach.maSoThue}">Mã Số Tduế</td>
+		</tr>
+	</tbody>
+</table>
+<div class="contextMenu" id="myMenu1" style="display: none;">
+	<ul>
+		<li id="edit-l">Chỉnh sửa</li>
+		<li id="change-l">Chuyển</li>
+		<li id="delete-l"> Xóa</li>
+	</ul>
+</div>
+<script>
+
+	$(document).ready(function() {
+		$(".listkhachhang").each(function(){
+			$(this).contextMenu('myMenu1', {
+				bindings: {
+					'edit-l': function(t) {
+						var n = $("#"+t.id).find("td");
+						id = n.eq(0).html()
+						$("#tenkhachhang").val(n.eq(1).html());
+						$("#dienthoaikh").val(n.eq(2).html());
+						$("#diachikh").val(n.eq(3).html());
+						$("#thudk").val(n.eq(4).html());
+						$("#tradk").val(n.eq(5).html());
+						$("#thuekh").val(n.eq(8).html());
+						$("#form-nhanvien").click();
+					},
+					'change-l': function(t) {
+						var n = $("#"+t.id).find("td");
+						id = n.eq(0).html();
+						$("#tree-nhomkhach").click();
+					},
+					'delete-l': function(t) {
+						var m = $("#"+t.id)
+						var n = m.find("td");
+						if(confirm("Bạn có chắc muốn xóa")){
+							var sms = {
+								id:n.html(),
+								status:""
+							}
+							save(sms, "/ajax/khachhang/delete", function(result){
+								if(result.id != "1"){
+									alert(result.status);
+								}else{
+									m.remove();
+								}
+							})
+						}
+					}
+				}
+			});
+		})
+	});	 	
+
+
+
+</script>
+</th:block>

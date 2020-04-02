@@ -1,0 +1,222 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<div class="card-header">
+	<h3><i class="fa fa-table"></i> Các đơn vị tính khác</h3>
+</div>
+
+<div class="card-body" style="overflow: auto;">
+	<form id="form-cd">
+		<table class="table table-responsive-xl table-bordered table-hover display">
+			<thead>
+				<tr>
+					<th rowspan="2" align="center" scope="col">ĐVT khác</th>
+					<th rowspan="2" align="center" scope="col">Qui đổi</th>
+					<th rowspan="2" align="center" scope="col">Menu</th>
+					<th colspan="2" align="center" th:each="lbg1:${lbg}" th:utext="${lbg1.tenBG}"></th>
+					<th rowspan="2">Tác vụ</th>
+				</tr>
+				<tr>
+					<th:block th:each="a:${lbg}">
+						<td>Đơn giá</th>
+						<td>Giảm</th>
+					</th:block>
+				</tr>
+			</thead>
+			<tbody id="body-form2" class="text-nowrap">
+				<tr  th:each="dvtkhac1:${dvtkhac}" class="dvtkhac" th:name="${dvtkhac1.id}" th:id="'dvtkhac'+${dvtkhac1.id}">
+					<td align="center" th:name="${dvtkhac1.donViTinh.id}" th:utext="${dvtkhac1.donViTinh.ten}" scope="row">Mark</td>
+					<td align="center" th:utext="${dvtkhac1.quiDoi}">Otto</td>
+					<td align="center"><i th:if ="${dvtkhac1.isMenu == 1}" class="fa fa-check-square bigfonts"></i></td>
+					<th:block th:each="bg:${dvtkhac1.bangGia}">
+						<td class="dongiax" th:utext="${bg.donGia}">Đơn giá</td>
+						<td class="giamx" th:utext="${bg.giam}">Giảm</td>
+					</th:block>
+					<td style="color: white;">
+						<a class="btn btn-primary btn-sm edit-dvtk"  data-toggle="modal" data-target="#modal_edit_user_5"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+						<a class="btn btn-danger btn-sm delete-dvtk" data-placement="top" data-toggle="tooltip" data-title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	
+	<div class="card-header">
+		<button type="button" id="add-button2" class="btn btn-success">Thêm đơn vị tính khác</button>
+		<button type="submit" id="save-button2" class="btn btn-primary float-right">Lưu và đồng bộ</button>
+	</div>
+	</form>
+</div>
+<div  style="display: none;" id="noob2"></div>
+<table style="display: none;">
+	<tbody id="form-add2">
+		<tr class="add2 dle2">
+			<td class="dvt-select2">
+				<select th:remove="all-but-first" class="form-control select2" name="state" required>
+					<option th:each="dvt:${dvt}" th:value="${dvt.id}" th:utext="${dvt.ten}" value="0">Hàng Hóa</option>
+					<option value="1">Nguyên Liệu</option>
+					<option value="2">Sản Phẩm Chế Biến</option>
+					<option value="3">Dịch Vụ Tính Theo Giờ</option>
+				</select>
+			</td>
+			<td>
+				<input type="number" step="any" size="10" style="width:50px;" class="form-control qd-select" min="1" required>
+			</td>
+			<td align="center">
+				<input type="checkbox" class="qd-select ismenu">
+			</td>
+			<th:block th:each="bg:${lbg}" >
+				<td>
+					<input type="number" step="any" size="10" style="width:80px;" class="form-control gia dongiay" min="0" required>
+				</td>
+				<td>
+					<input type="number" step="any" size="10" style="width:80px;" class="form-control gia giamy" min="0" required>
+				</td>
+			</th:block>
+			<td>
+				<button type="button" class="btn-danger btn-sm remove-add"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var id;
+		var n = $("#form-add2").html();
+		$("#add-button2").click(function(){
+			$("#body-form2").append(n);
+			$("#body-form2").find('.select2').select2();
+		})
+
+		$("#form-cd").on("click",".remove-add",function(){
+			var add = $(this).parents(".dle2");
+			add.prev().show();
+			add.remove();
+		})
+
+		$("#form-cd").submit(function(){
+			$(this).find(".save-edit2").each(function(){
+				$(this).click();
+			})
+			var number = $("#body-form2").find(".add2")
+			console.log(number.size());
+			if(number.size() == 0){
+				
+				// $("#dvtkhac").load("/ajax/mathang/chitiet/chuyendoi/"+sanphamId+"/");
+				return false;
+			}
+			var dvt_array = [];
+			var quidoi_array = [];
+			var ismenu_array = [];
+			var dongia = [];
+			var giam = [];
+			
+			for(let i = 0; i < number.size(); i++){
+				dvt_array[i] = number.eq(i).find(".dvt-select2").find("select option:selected").val();
+				quidoi_array[i] = number.eq(i).find(".qd-select").val();
+				if(number.eq(i).find(".ismenu").is(':checked')){
+					ismenu_array[i] = 1;
+				}else{
+					ismenu_array[i] = 0;
+				}
+				var dongiax = number.eq(i).find(".dongiay");
+				var giamx = number.eq(i).find(".giamy");
+				dongia[i] = [];
+				giam[i] = [];
+				for(let j = 0; j < dongiax.size(); j++){
+					dongia[i][j] =  dongiax.eq(j).val();
+					giam[i][j] = giamx.eq(j).val();
+				}
+			}
+
+			var chuyenDoiForm = {
+				sanPhamId: sanphamId,
+				maDonViTinh: dvt_array,
+				quiDoi:quidoi_array,
+				isMenu: ismenu_array,
+				donGia:dongia,
+				giam: giam
+			}
+			console.log(chuyenDoiForm);
+			return save(chuyenDoiForm, "/ajax/mathang/chitiet/chuyendoi/add", function(result){
+				$("#dvtkhac").load("/ajax/mathang/chitiet/chuyendoi/"+sanphamId+"/");
+				console.log(result)
+			})
+		})
+
+		$(".delete-dvtk").click(function(){
+			var iddvtk = $(this).parents("tr");
+			$("#noob2").load("/ajax/mathang/chitiet/chuyendoi/delete/" + iddvtk.attr("name"),function(result){
+				console.log(result)
+				if(result == '{"id":"1","status":"xóa thành công"}'){
+					iddvtk.remove();
+				}else{
+					$("#dvtkhac").load("/ajax/mathang/chitiet/chuyendoi/"+sanphamId+"/");
+				}
+			})
+		})
+
+		$(".edit-dvtk").click(function(){
+			var parent = $(this).parents("tr");
+			parent.hide();
+			parent.after($("#form-add2").html());
+			$("#form-cd").find('.select2').select2();
+			var edit = parent.next().removeClass("add2").addClass("edit-dvtkhac").find("td");
+			edit.eq(0).find("select").find('option[value="'+parent.find("td").eq(0).attr("name")+'"]').attr("selected","selected");
+			$("#body-form2").find('.select2').select2();
+			edit.eq(1).find("input").val(parent.find("td").eq(1).html());
+			if(parent.find("td").eq(2).html() != ""){
+				edit.eq(2).find("input").prop('checked', true);
+			}else{
+				edit.eq(2).find("input").prop('checked', false);
+			}
+			var gia = parent.next().find(".gia")
+			for(let i = 0; i < gia.size(); i++){
+				gia.eq(i).val(parent.find("td").eq(3+i).html())
+			}
+			
+			edit.find("button").after('<button type="button" class="btn-primary btn-sm save-edit2"><i class="fa fa-check-square-o bigfonts"></i></button>');
+		})
+		$("#body-form2").on("click",".save-edit2", function(){
+			var b = $(this).parents("tr")
+			var a = b.find("td");
+			var ismenu;
+			if(a.eq(2).find("input").is(':checked')){
+				ismenu = 1
+			}else{
+				ismenu = 0
+			}
+			var dongiay = [];
+			var giamy = [];
+			for(let i = 0; i < b.find(".dongiay").size(); i++){
+				dongiay[i] = b.find(".dongiay").eq(i).val();
+				giamy[i] = b.find(".giamy").eq(i).val()
+			}
+			var thanhPhanEditForm = {
+				"id": b.prev().attr("name"),
+				"sanPhamId": sanphamId,
+				"donViTinh": a.eq(0).find("select option:selected").val(),
+				"quiDoi": a.eq(1).find("input").val(),
+				"isMenu":ismenu,
+				"donGia":dongiay,
+				"giam":giamy,
+			}
+			save(thanhPhanEditForm,"/ajax/mathang/chitiet/chuyendoi/edit",function(result){
+				if(result.id == "1"){
+					var c = b.prev().find("td");
+					c.eq(0).html(a.eq(0).find("select option:selected").html());
+					c.eq(1).html(a.eq(1).find("input").val());
+					if(ismenu == 1){
+						c.eq(2).html('<i class="fa fa-check-square bigfonts"></i>');
+					}else{
+						c.eq(2).html("");
+					}
+					var gia = b.find(".gia")
+					for(let i = 0; i < gia.size(); i++){
+						c.eq(3+i).html(gia.eq(i).val());
+					}
+					b.find(".remove-add").click();
+				}
+			})
+		})
+	})
+</script>
+</th:block>

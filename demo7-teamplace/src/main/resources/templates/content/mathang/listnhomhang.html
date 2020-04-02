@@ -1,0 +1,31 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+	<th:block th:include="content/khachhang/nhomkhachhang :: tree-view" th:with="nhomkhach=${nhomhang}"> </th:block>
+</th:block>
+<script type="text/javascript" th:include="content/khachhang/nhomkhachhang:: tree-view2"></script>
+<script type="text/javascript">
+		$(document).ready(function(){
+
+			$("#submit-nk").click(function(){
+				var chosen = $(".chosen").attr("name");
+				if(typeof chosen == "undefined" || chosen == "0-admin-0-0"){
+					alert("Vui lòng chọn thư mục, trước khi xác nhận!");
+				}else{
+					var bpa = chosen.split('-');
+					var Sms = {
+						"id": id, // id khách hàng
+						"status" : bpa[0] // id nhóm khách hàng
+					}
+					return save(Sms,"/ajax/mathang/chuyennhomhang", function(result){
+						console.log(result);
+						var bophanid =  $(".clicknhomsp").attr("name");
+						if(typeof bophanid == "undefined"){
+							bophanid = "0-admin-0-0";
+						}
+						var bophanid1 = bophanid.split('-');
+						loadlsp(bophanid1[0]);
+						$(".closemd1").click();
+					})
+				}
+			})
+		})
+	</script>

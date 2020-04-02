@@ -1,0 +1,121 @@
+
+<th:block xmlns:th="http://www.thymeleaf.org">
+<!-- <link rel="stylesheet" href="contextMenu.min.css"> -->
+
+<table id="listnhanvien"
+class="table table-bordered table-hover display">
+<thead>
+	<tr>
+		<th>Mã</th>
+		<th>Họ Tên</th>
+		<th>Thu Ngân</th>
+		<th>Kế Toán</th>
+		<th>Đăng Nhập</th>
+		<th>Mật Khẩu</th>
+		<th>Điện Thoại</th>
+		<th>Địa Chỉ</th>
+		<th>Mã Số Thuế</th>
+	</tr>
+</thead>
+<tbody class="text-nowrap">
+	<tr class="listnhanvien" th:id="'nv'+${nv.id}" th:each="nv : ${nhanvien}">
+		<td th:utext = "${nv.id}">Mã</td>
+		<td th:utext = "${nv.ten}">Họ Tên</td>
+		<td align="center"><i th:if ="${nv.isThuNgan == 1}" class="fa fa-check-square bigfonts"> </i></td>
+		<td align="center"><i th:if ="${nv.isKeToan == 1}" class="fa fa-check-square bigfonts"> </i></td>
+		<td th:utext = "${nv.tenTK}">Đăng Ndập</td>
+		<td th:utext = "${nv.matKhau}">Mật Kdẩu</td>
+		<td th:utext = "${nv.dienThoai}">Điện Tdoại</td>
+		<td th:utext = "${nv.diaChi}">Địa Cdỉ</td>
+		<td th:utext = "${nv.maSoThue}">Mã Số Tduế</td>
+	</tr>
+</tbody>
+</table>
+
+
+<div class="contextMenu" id="myMenu1" style="display: none;">
+	<ul>
+		<li id="edit-l">Chỉnh sửa</li>
+		<li id="change-l">Chuyển</li>
+		<li id="delete-l"> Xóa</li>
+	</ul>
+</div>
+<!-- <span class="demo1" id="quickDemo" style="border: 1px solid #888;"> 
+	<b>jQueryScript.Net Demo</b> right-click me!! 
+</span> -->
+
+	<script>
+
+		$(document).ready(function() {
+			$(".listnhanvien").each(function(){
+				$(this).contextMenu('myMenu1', {
+					bindings: {
+						'edit-l': function(t) {
+							var n = $("#"+t.id).find("td");
+							if(n.eq(1).html() != "admin" && n.eq(0).html() != 0){
+								$("#tennhanvien").val(n.eq(1).html());
+								$("#diachinv").val(n.eq(7).html());
+								$("#taikhoang").val(n.eq(4).html());
+								$("#maukhaunv").val(n.eq(5).html());
+								$("#dienthoai").val(n.eq(6).html());
+								$("#thue").val(n.eq(8).html());
+								$("#form-nhanvien").click();
+								id = n.eq(0).html();
+								if(n.eq(2).html() != ""){
+									$("#isthungan1").prop('checked', true);
+								}else{
+									$("#isthungan1").prop('checked', false);
+								}
+								if(n.eq(3).html() != ""){
+									$("#isketoan1").prop('checked', true);
+								}else{
+									$("#isketoan1").prop('checked', false);
+								}
+							}else{
+								alert("Không nên tự ý chỉnh sửa tài khoảng admin! Có thể đổi mật khẩu tại khu vực người dùng")
+							}
+						},
+						'change-l': function(t) {
+							var n = $("#"+t.id).find("td");
+							if(n.eq(1).html() != "admin" && n.eq(0).html() != 0){
+								var n = $("#"+t.id).find("td");
+								id = n.eq(0).html();
+								$("#tree-bophan").click();
+							}else{
+								alert("Không nên tự ý chỉnh sửa tài khoảng admin! Có thể đổi mật khẩu tại khu vực người dùng")
+							}
+						},
+						'delete-l': function(t) {
+							var n = $("#"+t.id).find("td");
+							if(n.eq(1).html() != "admin" && n.eq(0).html() != 0){
+								if(confirm("Bạn có chắc muốn xóa")){
+									var m = $("#"+t.id)
+									var n = m.find("td");
+									id = n.eq(0).html();
+									var sms = {
+										id:id,
+										status:""
+									}
+									console.log(sms);
+									save(sms,"/ajax/nhanvien/chuyenbophan", function(result){
+										if(result.id != "1"){
+											alert(result.status);
+										}else{
+											m.remove();
+										}
+									})
+								}
+							}else{
+								alert("Không thể xóa tài khoảng admin");
+							}
+						}
+					}
+				});
+			})
+		});	 	
+		
+
+
+	</script>
+</th:block>
+	

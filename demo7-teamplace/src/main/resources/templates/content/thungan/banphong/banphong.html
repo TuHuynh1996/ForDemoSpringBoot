@@ -1,0 +1,187 @@
+<div class="row">
+	<div class="col-xl-12">
+		<div class="breadcrumb-holder">
+			<h1 class="main-title float-left">Sơ đồ bàn, phòng</h1>
+			<ol class="breadcrumb float-right">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">Thu Ngân</li>
+				<li class="breadcrumb-item active">Sơ đồ bàn, phòng</li>
+			</ol>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+
+<div class="row" id="hoadon-form" style="display: none;">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<div class="card mb-3">
+			<div class="card-body"  style="overflow: auto;">
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+						<div class="card mb-3" >
+							<div class="card-header">
+								<h3>Thông tin đặt hàng</h3>
+							</div>
+							<div class="card-body" id="detail">
+								
+							</div>
+							<div class="card-header">
+								<button type="button" class="btn btn-secondary huy float-right" style="margin: 0px 20px;" role="button"> Đóng </button>
+								<button type="button" class="btn btn-success xacnhan float-right" role="button"> Xác nhận thêm/chỉnh sửa</button>
+							</div>	
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+						<div class="card mb-3" >
+							<div class="card-header">
+								<h3>Thêm thực đơn</h3>
+							</div>
+							<div class="card-body" id="thucdon" style="max-height: 500px; overflow: auto;">
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>										
+	</div>
+</div>
+
+
+
+
+<div class="row">
+	<!-- <h3>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h3> -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<!-- <div class="row"> -->
+			<!-- ////////////////////////////////////////////////////////////////////////////////-->
+			<div class="card mb-3">
+				<div class="card-header">
+					<button type="button" class="btn btn-success" role="button" data-toggle="modal" data-target=".bd-example-modal-lg">
+					 <i class="fa fa-list-ul bigfonts"></i> Danh sách bàn phòng, khu vực</button>
+				</div>	
+				<div class="card-body" id="thungan" style="overflow: auto;">
+					
+				</div>
+			</div>										
+		</div><!-- end card-->	
+	<!-- ///////////////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- </div> -->
+	</div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+
+		<div class="modal-content">
+			<div class="modal-body"  >
+				<div class="simple-card">
+					<ul class="nav nav-tabs" id="myTab5" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" id="product-tab-1" data-toggle="tab" href="#body-banphong" role="tab" aria-controls="product-tab-1" aria-selected="true">Danh sách bàn/phòng</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="product-tab-2" data-toggle="tab" href="#body-khuvuc" role="tab" aria-controls="product-tab-2" aria-selected="false">Khu vực</a>
+						</li>
+					</ul>
+					<div class="tab-content" id="myTabContent5" style="max-height: 450px; overflow:auto;">
+						<div class="tab-pane fade show active" id="body-banphong" role="tabpanel" aria-labelledby="product-tab-1">
+							<!-- /////////////////////////////////////////////////////////////////////// -->
+						</div>
+						<div class="tab-pane fade" id="body-khuvuc" role="tabpanel" aria-labelledby="product-tab-2">
+							<!-- /////////////////////////////////////////////////////////////////////// -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="add-banphong" class="btn btn-success btn-sm float-left">Thêm mới</button>
+				<button type="button" id="save-banphong" class="btn btn-primary btn-sm">Lưu thay đổi</button>
+				<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<span data-toggle='modal' id="chuyenban" data-target='.chuyenban'></span>
+<div class="modal fade chuyenban" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header"  >
+				<h5>Chuyển bàn</h5>
+			</div>
+			<div class="modal-body" style="overflow: auto; max-height: 500px" >
+				<table class="table table-bordered table-hover display" style="margin-top:10px;">
+					<thead>
+						<tr>
+							<th style="line-height: 35px; padding:3px;text-align: center;" align="center" scope="col">Khu vực</th>
+							<th style="line-height: 35px; padding:3px;text-align: center;" align="center" scope="col">Số bàn / phòng</th>
+						</tr>
+					</thead>
+					<tbody class="text-nowrap listchuyenban">
+
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary huy-chuyenban btn-sm" data-dismiss="modal">Hủy</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<span data-toggle='modal' id="thanhtoan" data-target='.thanhtoan1'></span>
+<div class="modal fade thanhtoan1" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header"  >
+				<h5>Hóa đơn</h5>
+			</div>
+			<div class="modal-body hoadon" style="overflow: auto; max-height: 500px" >
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="xacnhan-hoadon" class="btn btn-primary btn-sm">Xác nhận</button>
+				<button type="button" class="btn btn-secondary huy-xacnhan btn-sm" data-dismiss="modal">Hủy</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var idChungTu;
+	$(document).ready(function(){
+		$("#body-banphong").load("/ajax/banphong/listbanphong");
+		$("#body-khuvuc").load("/ajax/banphong/listkhuvuc");
+		$("#thungan").load("/ajax/banphong/thungan1");
+		setInterval(function(){
+			$("#thungan").load("/ajax/banphong/thungan1");
+		}, 60000);
+		$("#add-banphong").click(function(){
+			var active = $("#myTabContent5 .active");
+			var add = active.find(".form-add").html();
+			var body = active.find("tbody").first();
+			body.prepend(add);
+		})
+		$("#myTabContent5").on("click", ".remove-add", function(){
+			var add = $(this).parents("tr");
+			add.prev().show();
+			add.remove();
+		})
+		$("#save-banphong").click(function(){
+			$("#myTabContent5 .active").find(".submit").click();
+
+		})
+
+		$(".xacnhan").click(function(){
+			$("#btn-submit").click();
+		})
+		$(".huy").click(function(){
+			$("#hoadon-form").hide();
+		})
+
+	})
+
+	function addstt(stt, number){
+		for(let i = 0; i < stt.size(); i++){
+			stt.eq(i).find("td").first().html(i+number);
+		}
+	}
+</script>

@@ -1,0 +1,146 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<table id="listkhachhang" class="table table-bordered table-hover display">
+	<thead>
+		<tr>
+			<th rowspan="2" style="line-height: 35px; padding:3px;text-align: center;">STT</th>
+			<th colspan="2" style="line-height: 35px; padding:3px;text-align: center;">Chứng từ</th>
+			<th colspan="5" style="line-height: 35px; padding:3px;text-align: center; background-color:#f7f7f7;">Đặt bàn</th>
+			<th colspan="4" style="line-height: 35px; padding:3px;text-align: center;">Giá trị</th>
+			<th rowspan="2" style="line-height: 35px; padding:3px;text-align: center;">Ghi chú</th>
+			<th rowspan="2" style="line-height: 35px; padding:3px;text-align: center;">Xong</th>
+		</tr>
+		<tr>
+			<th style="line-height: 35px; padding: 3px;text-align: center;">Số chứng từ</th>
+			<th style="line-height: 35px; padding: 3px;text-align: center;">Ngày lập</th>
+
+			<th style="line-height: 35px; padding: 3px;text-align: center; background-color:#f7f7f7;">Ngày</th>
+			<th style="line-height: 35px; padding: 3px;text-align: center; background-color:#f7f7f7;">Giờ</th>
+			<th style="line-height: 35px; padding: 3px;text-align: center; background-color:#f7f7f7;">Số món</th>
+			<th style="line-height: 35px; padding: 3px;text-align: center; background-color:#f7f7f7;">Số khách</th>
+			<th style="line-height: 35px; padding: 3px;text-align: center; background-color:#f7f7f7;">Đơn vị/ họ tên</th>
+
+			<th style="line-height: 35px; padding: 3px;text-align: center;">Số tiền</th>
+			<th style="line-height: 35px; padding: 3px;text-align: center;">Giảm</th>
+			<th style="line-height: 35px; padding: 3px;text-align: center;">Đặt cọc</th>
+			<th style="line-height: 35px; padding: 3px;text-align: center;">Còn lại</th>
+		</tr>
+	</thead>
+	<tbody class="text-nowrap">
+		<tr th:each="datban,iterator:${datban}" th:id="'chungtu'+${datban.id}" class="chungtulist">
+			<td class="stt1" th:utext="${iterator.count}"> 1 </td>
+			<td class="sochungtu1" th:utext="${datban.id}"> 2 </td>
+			<td class="ngayCT1" th:utext="${datban.ngayCT}"> 3 </td>
+			<td class="ngayDat1" th:utext="${datban.ngayDat}"> 4 </td>
+			<td class="gioDat1" th:utext="${datban.gioDat}"> 5 </td>
+			<td class="dongChungTu1" th:utext="${#lists.size(datban.dongChungTu)}"> 6 </td>
+			<td class="soKhach1" th:utext="${datban.soKhach}"> 7 </td>
+			<td class="khachHang1" th:name="${datban.khachHang.id}" th:utext="${datban.khachHang.ten}"> 8 </td>
+			<td class="soTien1" th:utext="${datban.soTien}"> 9 </td>
+			<td class="giam1" th:utext="${datban.giam}"> 10 </td>
+			<td class="traTruoc1" th:utext="${datban.traTruoc}"> 11 </td>
+			<td class="conlai1" th:with="result=${(datban.soTien * (100 - datban.giam))/100 - datban.traTruoc}">
+				<span th:utext="${result}"> </span>
+			</td>
+			<td class="ghichu1" th:utext="${datban.noiDung}"> 13 </td>
+			<td class="" th:utext="${datban.trangThai}"> 14 </td>
+		</tr>
+	</tbody>			
+</table>
+
+<div class="contextMenu" id="myMenu1" style="display: none;">
+	<ul>
+		<li id="chitiet-l">Chi tiết</li>
+		<li id="change-l">Vào bàn</li>
+		<li id="done-l">Đã xong</li>
+		<li id="delete-l"> Hủy đơn hàng</li>
+	</ul>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".chungtulist").each(function(){
+			$(this).contextMenu('myMenu1', {
+				bindings: {
+					'chitiet-l': function(t) {
+						console.log(t)
+						$("#thucdon").load("/ajax/thungan/datban/getthucdon/0")
+						idChungTu = $("#"+t.id).find(".sochungtu1").html();
+						$("#detail").load("/ajax/thungan/datban/thongtin", function(){
+							var input = $("#listkhachhang").parents(".container-fluid").find("#save");
+							var output = $("#"+t.id)
+							input.find(".ngaylap").val(output.find(".ngayCT1").html());
+							input.find(".sophieu").val(output.find(".sochungtu1").html());
+
+							// input.find(".khachHang").val(output.find(".khachHang1").attr("name"));
+							input.find(".khachHang").find('option[value="'+output.find(".khachHang1").attr("name")+'"]').attr("selected","selected");
+							input.find('.select2').select2();
+
+							var ngayDatmdy = output.find(".ngayDat1").text().split('-');
+							input.find(".ngayDat").val(ngayDatmdy[1]+'/'+ngayDatmdy[2]+'/'+ngayDatmdy[0]);
+							input.find(".gioDat").val(output.find(".gioDat1").html())
+							input.find(".soKhach").val(output.find(".soKhach1").html())
+							input.find(".giam").val(output.find(".giam1").html())
+							input.find(".tienDatTruoc").val(output.find(".traTruoc1").html())
+							input.find(".tongtien").val(output.find(".soTien1").html())
+							input.find(".conlai").val(output.find(".conlai1").find("span").html())
+							input.find(".ghichu").val(output.find(".ghichu1").html())
+						})
+						$("#add-dathang").show();
+					},
+					'change-l': function(t) {
+						var sms = {
+							id:"",
+							status:""
+						}
+						save(sms,"/ajax/thungan/datban/bantrong", function(result){
+							$("#vaoban").click();
+							$(".listban").empty();
+							for(let i = 0; i < result.length; i++){
+								$(".listban").append("<tr class='selectvaoban'><td align='center' name='"+result[i].maKV.id+"'>"+result[i].maKV.tenKV+"</td><td align='center' name='"+result[i].maBG.id+"' >"+result[i].id+"</td></tr>");
+							}
+							$(".selectvaoban").click(function(){
+								var sms = {
+									id: $("#"+t.id).find(".sochungtu1").html(),
+									status: $(this).find("td").eq(1).html()
+								}
+								console.log(sms)
+								save(sms,"/ajax/thungan/datban/vaoban", function(result){
+									if(result.id != "1"){
+										alert(result.status);
+									}
+									$("#listdatban").load("/ajax/thungan/datban/listdatban");
+									$(".huy-chuyenban").click();
+								})
+							})
+						})
+					},
+					'done-l': function(t) {
+						var sms = {
+							id: $("#"+t.id).find(".sochungtu1").html(),
+							status:$("#User").attr("name")
+						}
+						return save(sms,"/ajax/thungan/datban/thanhToan", function(result){
+							if(result.id !="1" ){
+								alert(result.status);
+							}
+							$("#listdatban").load("/ajax/thungan/datban/listdatban");
+						})
+					},
+					'delete-l': function(t) {
+						if(confirm("Xác nhận hủy")){
+							var sms = {
+								id: $("#"+t.id).find(".sochungtu1").html(),
+								status:"Xóa"
+							}
+							save(sms,"/ajax/thungan/datban/delete",function(result){
+								if(result.id == "1"){
+									$("#"+t.id).remove();
+								}
+							})
+						}
+					}
+				}
+			});
+		})
+	});	 	
+</script>
+</th:block>

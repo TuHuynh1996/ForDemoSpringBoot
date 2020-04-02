@@ -1,0 +1,127 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+
+<form id="save">
+	<div class="row"  style="max-height: 400px; overflow: auto;">
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Ngày lập: <input type="text" class="form-control ngaylap" readonly="readonly" />
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Số phiếu: <input type="text"  class="form-control sophieu" readonly="readonly"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Khách hàng: <select class="form-control form-control-sm select2 khachHang selected-hiden" name="state" required>
+				<option value=""></option>
+				<option value="0" th:each="khachhang:${khachhang}" th:utext="${khachhang.ten}" th:value="${khachhang.id}">Hàng Hóa</option>
+			</select>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Ngày đặt: <input type="text" class="form-control ngayDat" name="singledatepicker" style="background-color: white" readonly="readonly"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Giờ đặt: <input type="text" class="form-control gioDat"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Số khách: <input type="number" class="form-control soKhach"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Bảng giá: <select  class="form-control form-control-sm select2 bangGia selected-hiden" name="state" required>
+				<option value=""></option>
+				<option value="0" th:each="banggia:${banggia}" th:utext="${banggia.tenBG}" th:value="${banggia.id}">Hàng Hóa</option>
+			</select>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Giảm(%): <input type="number" class="form-control giam"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Tiền đặt trước: <input type="number" class="form-control tienDatTruoc"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Tổng tiền: <input type="number" class="form-control tongtien" readonly="readonly"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Còn lại <input type="number" class="form-control conlai" readonly="readonly"/>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			Ghi chú: <input type="text" class="form-control ghichu"/>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<table id="thudondadatall" class="table table-bordered table-hover display">
+
+			</table>
+		</div>
+	</div>
+	<input id="btn-submit" type="submit" style="display: none;" name="">
+</form>
+<script>
+	$(function() {
+		$('input[name="singledatepicker"]').daterangepicker({
+			singleDatePicker: true,
+			showDropdowns: true
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.select2').select2();
+		var id = $(".sophieu").val();
+		if(id == ""){
+			id = idChungTu;
+		}
+
+		$("#thudondadatall").load("/ajax/thungan/datban/thucdon/"+id)
+
+		$("#save").submit(function(){
+			var thucdon = $("#thudondadatall").find("#thudondadat").find("tr");
+			var thucDonForm = [];
+			for(let i = 0; i < thucdon.size(); i++){
+				var soLuong = thucdon.eq(i).find(".soLuong").val();
+				if(soLuong <= 0 ){
+					alert("Số lượng thực đơn không hợp lệ");
+					return false;
+				}
+				thucDonForm[i] = {
+					id: thucdon.eq(i).attr("name"),
+					soLuong: soLuong,
+					ghiChu:  thucdon.eq(i).find(".ghichu").val(),
+				}
+			}
+
+			if($(this).find(".soKhach").val() < 0 || $(this).find(".tienDatTruoc").val() < 0){
+
+			}
+
+			var datBanForm = {
+				id: $(this).find(".sophieu").val(),
+				ngayLap: $(this).find(".ngaylap").val(),
+				
+				khachHang: $(this).find(".khachHang").find("option:selected").val(),
+
+				ngayDat: $(this).find(".ngayDat").val(),
+				gioDat: $(this).find(".gioDat").val(),
+				soKhach: $(this).find(".soKhach").val(),
+				bangGia: $(this).find(".bangGia").find("option:selected").val(),
+				giam: $(this).find(".giam").val(),
+				tienDatTruoc: $(this).find(".tienDatTruoc").val(),
+				ghiChu :  $(this).find(".ghichu").val(),
+				thucDon: thucDonForm
+			}
+			console.log(datBanForm);
+			return save(datBanForm,"/ajax/thungan/datban/add", function(result){
+				console.log(result);
+				if(result.id == 1){
+					$("#listdatban").load("/ajax/thungan/datban/listdatban");
+					$("#save").parents("#add-dathang").hide();
+				}else{
+					alert(result.status);
+				}
+			})
+		})
+
+		$(".selected-hiden").click(function(){
+			alert("aaaaaaaaaaaaaa")
+			$(this).find("option").first().hide()
+		})
+		
+	})
+</script>
+</th:block>

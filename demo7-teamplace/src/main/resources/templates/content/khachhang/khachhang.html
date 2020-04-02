@@ -1,0 +1,368 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<!-- <link href="../assets/plugins/jstree/style.css"
+th:href="@{/assets/plugins/jstree/style.css}" rel="stylesheet"
+type="text/css" /> -->
+<div class="row">
+	<div class="col-xl-12">
+		<div class="breadcrumb-holder">
+			<h1 class="main-title float-left">Khách Hàng</h1>
+			<ol class="breadcrumb float-right">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">Khách Hàng</li>
+			</ol>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<!-- <h3>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h3> -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<div class="row">
+			<!-- Khu vực tree view bộ phân     ////////////////////////////////////////////////////////////////////////////////-->
+			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3" >
+				<div class="card mb-3">
+					<div class="card-header">
+						<h3>
+							<i class="fa fa-folder-open-o"></i> Bộ Phận
+						</h3>
+					</div>
+					<div class="card-header">
+						<button type="button" id="adkh2" class="btn btn-success btn-sm bpbtn" >Thêm</button>
+						<button type="button" id="editkh2" class="btn btn-warning btn-sm bpbtn">Sửa</button>
+						<button type="button" id="deletekh2" class="btn btn-danger btn-sm bpbtn">Xóa</button>
+					</div>
+					
+					<div class="card-body" style="overflow: auto; max-height: 400px" id="nhomkhachhang">
+
+					</div>
+				</div>
+			</div>
+			<!-- Khu vực bảng danh sác nhan viên //////////////////////////////////////////////////////////////////////////////////////// -->
+			<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9" >
+				<div class="row">
+
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="card mb-3">
+							<div class="card-header" >
+								<h3 id="tabletitle">
+								</h3>
+							</div>
+
+							<div class="card-body">
+								<!-- <div>
+									Toggle columns (click to show / hide columns): 
+									<a href="#" class="toggle-vis" data-column="4"><b>Đăng Nhập</b></a> | 
+									<a href="#" class="toggle-vis" data-column="5"><b>Mật Khẩu</b></a> | 
+									<a href="#" class="toggle-vis" data-column="6"><b>Điện Thoại</b></a> | 
+									<a href="#" class="toggle-vis" data-column="7"><b>Địa Chỉ</b></a> | 
+									<a href="#" class="toggle-vis" data-column="8"><b>Mã Số Thuế</b></a>
+								</div> -->
+								<div class="card-header">
+									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+										<button type="button" id="add-khachhang" class="btn btn-success">Thêm khách hàng mới</button>
+									</div>
+								</div>
+								<div class="table-responsive"  id="khachhang">
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ///////////////////////////////////////////////////////////////////////////////////////////////// -->
+		</div>
+	</div>
+</div>
+<span data-toggle='modal' id="form-nhanvien" data-target='.form-nhanvien'></span>
+	<div class="modal fade form-nhanvien" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="title-nv">Khách hàng</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form id="add-kh">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="tenkhachhang">Tên Khách Hàng</label> <input
+									type="text" class="form-control" id="tenkhachhang"
+									aria-describedby="emailHelp" placeholder="Nhập tên khách hàng" required>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="dienthoaikh">Số Điện Thoại</label> <input
+									type="text" class="form-control" id="dienthoaikh"
+									aria-describedby="emailHelp" placeholder="Nhập số điện thoại">
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="thudk">Thu Đầu Kỳ</label> <input
+									type="text" class="form-control" id="thudk"
+									aria-describedby="emailHelp" placeholder="Nhập số tiền" >
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="tradk">Trả Đầu Kỳ</label> <input
+									type="text" class="form-control" id="tradk"
+									aria-describedby="emailHelp" placeholder="Nhập số tiền">
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="diachikh">Địa Chỉ</label> <input
+									type="text" class="form-control" id="diachikh"
+									aria-describedby="emailHelp" placeholder="Nhập địa chỉ" >
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+								<div class="form-group">
+									<label for="thuekh">Mã Số Thuế</label> <input
+									type="text" class="form-control" id="thuekh"
+									aria-describedby="emailHelp" placeholder="Nhập mã số thuế">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="submitkh" class="btn btn-primary">Save
+							changes</button>
+						<button type="button" id="dong-1" class="btn btn-secondary closemd1"
+							data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<span data-toggle='modal' id="form-nhomkhach" data-target='.form-nhomkhach'></span>
+	<div class="modal fade form-nhomkhach" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="title-nv"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<form id="form-nhomkhach1">
+					<div class="modal-body" >
+						<div class="form-group">
+							<label for="tenkh">Tên thư mục</label> <input
+								type="text" class="form-control" id="tenkh"
+								aria-describedby="emailHelp" placeholder="Nhập tên thư mục"
+								required>
+						</div>
+						<div class="form-group">
+							<div class="form-check">
+								<!-- <select class="khachhangtype" name="khachhangtype">
+									<option value="1">Khách Hàng</option>
+									<option value="2">Nguồn Cung Cấp</option>
+								</select> -->
+								<label class="form-check-label">
+									<input class="form-check-input" type="radio" name="radio" id="khachhangtype" value="1" checked>
+									Khách Hàng
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input class="form-check-input" type="radio" name="radio" id="nguoncungcap" value="2">
+									Nguồn Cung Cấp
+								</label>
+							</div>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="nhomkhachsm" class="btn btn-primary"> Xác nhận</button>
+						<button type="button" class="btn btn-secondary closemd1"
+							data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	var id;
+	var maCha;
+	$(document).ready(function(){
+		loadnkh();
+		loadlkh(0)
+
+
+		$(".bpbtn").each(function(){
+			$(this).click(function(){
+				var khachhangid =  $(".clicknhomkh").attr("name");
+				var idkh = $(this).attr('id');
+				if(typeof khachhangid == "undefined"){
+					khachhangid = "0-admin-0-0";
+				}
+				var khachhangid1 = khachhangid.split('-');
+				if(khachhangid1[0]=="0" && (idkh == "editkh2" || idkh == "deletekh2")){
+					alert("Hãy chọn nhóm khách hàng cụ thể trước khi xóa hoặc chỉnh sửa");
+				}else{
+					if(idkh == "deletekh2"){
+						if(confirm("Xác nhận xóa thư mục")==true){
+							var nhomkhachhang = {
+								"id": khachhangid1[0],
+								"tenkh": khachhangid1[1],
+								"maCha": khachhangid1[2],
+								"loaiNhom":khachhangid1[3]
+							}
+							return save(nhomkhachhang,"/ajax/khachhang/deletenhomkhach",function(result){
+								console.log(result);
+								if(result.id == "1"){
+									$("#nhomkhachhang").load("/ajax/khachhang/nhomkhach", function(){
+										$(".father-tree").click();
+									});
+								}else{
+									alert(result.status);
+									if(result.id == "0"){
+										$("#nhomkhachhang").load("/ajax/khachhang/nhomkhach", function(){
+											$(".father-tree").click();
+										});
+									}
+								}
+							})
+						}else{
+							return false;
+						}
+
+					}else{
+						if(idkh == "editkh2"){
+							id = khachhangid1[0];
+							maCha = khachhangid1[2];
+							$("#tenkh").val(khachhangid1[1]);
+							console.log(khachhangid1[3]);
+							if(khachhangid1[3] == "1"){
+								$("input[name=radio][value=" + 1 + "]").prop('checked', true);
+							}else{
+								if(khachhangid1[3] == "2"){
+									$("input[name=radio][value=" + 2 + "]").prop('checked', true);
+								}
+							}
+
+						}else{
+							id ='';
+							maCha = khachhangid1[0];
+							$("#tenkh").val("");
+						}
+						$("#form-nhomkhach").click();
+					}
+				}
+			})
+		})
+
+
+		$("#form-nhomkhach1").submit(function(){
+
+			var BoPhan = {
+				"id":id,
+				"ten": $("#tenkh").val(),
+				"maCha":maCha,
+				"nhomKhach" : $("input[name='radio']:checked").val()
+			}
+			console.log(BoPhan);
+			return save(BoPhan,"/ajax/khachhang/savenhomkhach", function(result){
+				console.log(result);
+				$("#nhomkhachhang").load("/ajax/khachhang/nhomkhach", function(){
+					if(result.id != "0"){
+						$(".tree"+result.id).click();
+						$(".closemd1").click();
+					}else{
+						alert(result.status);
+						$(".father-tree").click();
+					}
+				});
+				
+			})
+
+		})
+		
+		$(document).on("click",".jstree-anchor",function(){
+			var father = $(this).parents(".simpleTree");
+			if(father.hasClass("simpleTree1")){
+				var abc = $(this).parent(".tree");
+				$(".clicknhomkh").each(function(){
+					$(this).removeClass('clicknhomkh');
+				})
+				abc.addClass("clicknhomkh");
+				var clas = abc.attr("name");
+				var bpa = clas.split('-');
+				$("#tabletitle").text($(this).find("span").text());
+				loadlkh(bpa[0]);
+			}else{
+				if (father.hasClass("simpleTree2")) {
+					var abc = $(this).parent(".tree-1");
+					$(".chosen").each(function(){
+						$(this).removeClass("chosen");
+					})
+					abc.addClass("chosen");
+				}
+			}
+		})
+		$("#add-khachhang").click(function(){
+			var khname =  $(".clicknhomkh").attr("name");
+			if(typeof khname == "undefined" || khname == "0-admin-0-0"){
+				alert("Chọn thư mục trước khi thêm khách hàng");
+				return false;
+			}
+			id = "";
+			$("#tenkhachhang").val("");
+			$("#dienthoaikh").val("");
+			$("#diachikh").val("");
+			$("#thudk").val("");
+			$("#tradk").val("");
+			$("#thuekh").val("");
+			$("#form-nhanvien").click();
+		})
+
+		//Xử lý submit thêm , sửa khách hàng
+		$("#add-kh").submit(function(){
+			var khname =  $(".clicknhomkh").attr("name");
+			if(typeof khname == "undefined"){
+				khname = "0-admin-0-0";
+			}
+			var kharray = khname.split('-');
+			if(kharray[0]=="0" && id ==""){
+				alert("Không thể thêm nhân viên tại thư mục gốc, hãy chọn thư mục khác!")
+				return false;
+			}
+			var KhachHangForm = {
+				"id": id,
+				"ten": $("#tenkhachhang").val(),
+				"diaChi": $("#diachikh").val(),
+				"dienThoai":$("#dienthoaikh").val(),
+				"maSoThue":$("#thuekh").val(),
+				"nhomKhach": kharray[0],
+				"thuDK": $("#thudk").val(),
+				"traDK": $("#tradk").val()
+			}
+			// return savenv(NhanVienForm,bophanid1[0]);
+			return save(KhachHangForm, "/ajax/khachhang/savekh",function(result){
+				loadlkh(kharray[0]);
+				// console.log(result.status)
+				$(".closemd1").click();
+			})
+		})
+	})
+	function loadnkh(){
+		$("#nhomkhachhang").load("/ajax/khachhang/nhomkhach");
+	}
+	function loadlkh(a){
+		$("#khachhang").load("/ajax/khachhang/listkhach/"+a+"/");
+	}
+</script>
+</th:block>

@@ -1,0 +1,70 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<table class="table table-responsive-xl table-bordered table-hover display">
+	<thead>
+		<tr>
+			<th scope="col">STT </th>
+			<th scope="col">Ký hiệu</th>
+			<th scope="col">Mặc định</th>
+		</tr>
+	</thead>
+	<tbody th:remove="all-but-first">
+		<tr th:each="dvt,stt:${dvt}" class="dvt" th:id="'dvt'+${dvt.id}">
+			<td align="center" scope="row" th:name="${dvt.id}" th:utext="${stt.count}">Mark</td>
+			<td align="center" th:utext="${dvt.ten}">Otto</td>
+			<td align="center"><i th:if ="${dvt.macDinh == 1}" class="fa fa-check-square bigfonts"> </i></td>
+		</tr>
+		<tr>
+			<td scope="row">Jacob</td>
+			<td>Thornton</td>
+			<td>@fat</td>
+		</tr>
+		<tr>
+			<td scope="row">Larry</td>
+			<td>the Bird</td>
+			<td>@twitter</td>
+		</tr>
+	</tbody>
+</table>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".dvt").each(function(){
+			$(this).contextMenu('myMenu1', {
+				bindings: {
+					'edit-l': function(t) {
+						var n = $("#"+t.id).find("td");
+						id = n.eq(0).attr("name");
+						$("#tendvt").val(n.eq(1).html());
+						if(n.eq(2).html() != ""){
+							$("#macdinhdvt").prop('checked', true);
+						}else{
+							$("#macdinhdvt").prop('checked', false);
+						}
+						$("#form-donvitinh").click();
+					},
+
+					'delete-l': function(t) {
+						var n = $("#"+t.id).find("td");
+						if(confirm("Xác nhận xóa "+ n.eq(1).html())){
+							var macdinh;
+							if(n.eq(2).html() != ""){
+								macdinh = 1;
+							}else{
+								macdinh = 0;
+							}
+							var donvitinh = {
+								"id": n.eq(0).attr("name"),
+								"ten": n.eq(1).html(),
+								"macDinh": macdinh
+							}
+							save(donvitinh,"/ajax/mathang/deletedvt", function(result){
+								console.log(result);
+								$("#loaidvt").load("/ajax/mathang/donvitinh");
+							})
+						}
+					}
+				}
+			});
+		});
+	});
+</script>
+</th:block>

@@ -1,0 +1,66 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<table class="table table-bordered table-hover display">
+	<thead>
+		<tr>
+			<th>STT</th>
+			<th>Tên hàng hóa</th>
+			<th>DVT</th>
+			<th>Số lượng</th>
+			<th>Thêm</th>
+		</tr>
+	</thead>
+	<tbody class="text-nowrap" id="listthucdon">
+		<th:block  th:each="thucdon,iterator:${thucdon}">
+			<tr th:name="${thucdon.id}" th:class="${thucdon.id}">
+				<td th:utext="${iterator.count}"> </td>
+				<td th:utext="${thucdon.tenSP}"> </td>
+				<td th:utext="${thucdon.donViTinh.ten}"> </td>
+				<td> <input type="number" size="10" style="width:50px;" class="form-control qd-select soLuong" min="1" value="1" required> </td>
+				<td class="add-delete1"><button type="button" class="btn btn-success btn-sm add-thucdon">Thêm</button></td>
+				<td class="show" style="display: none;"><input type="text" size="10" style="width:200px;" class="form-control qd-select ghichu"></td>
+				<td class="show" style="display: none;"> <a class="btn btn-danger btn-sm delete-btn" style="color: white" ><i class="fa fa-trash-o"> </td>
+			</tr>
+			<tr th:each="dvtkhac,iterator:${thucdon.dvtKhacThucDon}" th:class="'dvtkhac-' + ${dvtkhac.id}" th:name="'dvtkhac-' + ${dvtkhac.id}">
+				<td th:utext="${iterator.count}"> </td>
+				<td th:utext="${thucdon.tenSP}"> </td>
+				<td th:utext="${dvtkhac.donViTinh.ten}"> </td>
+				<td> <input type="number" size="10" style="width:50px;" class="form-control qd-select soLuong" min="1" value="1" required> </td>
+				<td class="add-delete1"><button type="button" class="btn btn-success btn-sm add-thucdon">Thêm</button></td>
+				<td class="show" style="display: none;"><input type="text" size="10" style="width:200px;" class="form-control qd-select ghichu"></td>
+				<td class="show" style="display: none;"> <a class="btn btn-danger btn-sm delete-btn" style="color: white" ><i class="fa fa-trash-o"></i></a> </td>
+			</tr>
+		</th:block>
+	</tbody>			
+</table>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var stt = $("#listthucdon").find("tr")
+		// for(let i = 0; i < stt.size(); i++){
+		// 	console.log(stt.eq(i).attr('class'));
+		// 	console.log($("#thudondadat").find("."+stt.eq(i).attr('class')).size())
+		// 	if($("#thudondadat").find("."+stt.eq(i).attr('class')).size() != 0){
+		// 		stt.remove();
+		// 	}
+		// }
+		addstt(stt, 1);
+		$("#listthucdon").on("click",".add-thucdon", function(){
+			var add = $(this).parents("tr")
+			$("#thudondadat").append(add);
+			$("#thudondadat").find(".add-delete1").hide();
+			$("#thudondadat").find(".show").show(0);
+			var stt2 = $("#thudondadat").find("tr")
+			addstt(stt2, 1);
+		})
+		// $("#listthucdon").find(".add-thucdon").click(function(){
+		// 	var add = $(this).parents("tr")
+		// 	$("#thudondadat").append(add);
+		// 	$("#thudondadat").find(".add-delete1").hide();
+		// 	$("#thudondadat").find(".show").show(0);
+		// 	var stt2 = $("#thudondadat").find("tr")
+		// 	addstt(stt2, 1);
+		// })
+	})
+
+	
+</script>
+</th:block>

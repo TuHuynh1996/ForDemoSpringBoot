@@ -1,0 +1,128 @@
+
+<th:block xmlns:th="http://www.thymeleaf.org">
+<div class="row">
+	<div class="col-xl-12">
+		<div class="breadcrumb-holder">
+			<h1 class="main-title float-left">Đặt Bàn</h1>
+			<ol class="breadcrumb float-right">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">Thu Ngân</li>
+				<li class="breadcrumb-item active">Đặt Bàn</li>
+			</ol>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+<div class="row" id="add-dathang" style="display: none;">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<div class="card mb-3">
+			<div class="card-body"  style="overflow: auto;">
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+						<div class="card mb-3" >
+							<div class="card-header">
+								<h3>Thông tin đặt hàng</h3>
+							</div>
+							<div class="card-body" id="detail">
+								
+							</div>
+							<div class="card-header">
+								<button type="button" class="btn btn-secondary huy float-right" style="margin: 0px 20px;" role="button"> Đóng </button>
+								<button type="button" class="btn btn-success xacnhan float-right" role="button"> Xác nhận thêm/chỉnh sửa</button>
+							</div>	
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+						<div class="card mb-3" >
+							<div class="card-header">
+								<h3>Thêm thực đơn</h3>
+							</div>
+							<div class="card-body" id="thucdon" style="max-height: 400px; overflow: auto;">
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>										
+	</div>
+</div>
+<div class="row">
+	<!-- <h3>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h3> -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<div class="card mb-3">
+			<div class="card-header">
+				<button type="button" class="btn btn-success adddatban">
+				 <i class="fa fa-plus bigfonts"></i> Thêm đơn đặt hàng</button>
+			</div>	
+			<div class="card-body" id="listdatban" style="overflow: auto;">
+				
+			</div>
+		</div>										
+	</div>
+</div>
+
+<span data-toggle='modal' id="vaoban" data-target='.vaoban'></span>
+<div class="modal fade vaoban" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header"  >
+				<h5>Vào bàn</h5>
+			</div>
+			<div class="modal-body" style="overflow: auto; max-height: 500px" >
+				<table class="table table-bordered table-hover display" style="margin-top:10px;">
+					<thead>
+						<tr>
+							<th style="line-height: 35px; padding:3px;text-align: center;" align="center" scope="col">Khu vực</th>
+							<th style="line-height: 35px; padding:3px;text-align: center;" align="center" scope="col">Số bàn / phòng</th>
+						</tr>
+					</thead>
+					<tbody class="text-nowrap listban">
+
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary huy-chuyenban btn-sm" data-dismiss="modal">Hủy</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div style="display: none;" class="noob"></div>
+<script type="text/javascript">
+	var idChungTu = "0";
+	$(document).ready(function(){
+
+		$("#listdatban").load("/ajax/thungan/datban/listdatban");
+
+		$(".adddatban").click(function(){
+			idChungTu = "0";
+			$("#thucdon").load("/ajax/thungan/datban/getthucdon/0")
+			$("#detail").load("/ajax/thungan/datban/thongtin", function(){
+				var today = new Date();
+				var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+				var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+				var dateTime = date+' '+time;
+				$(".ngaylap").val(dateTime);
+			})
+			$("#add-dathang").show();
+		})
+
+		$(".xacnhan").click(function(){
+			$("#btn-submit").click();
+		})
+		$(".huy").click(function(){
+			if(confirm("Bạn có chắc muốn hủy")){
+				$("#add-dathang").hide();
+			}
+		})
+	})
+
+	function addstt(stt, number){
+		for(let i = 0; i < stt.size(); i++){
+			stt.eq(i).find("td").first().html(i+number);
+		}
+	}
+</script>
+</th:block>

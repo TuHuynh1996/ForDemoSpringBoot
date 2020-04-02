@@ -1,0 +1,137 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+
+<form id="save">
+	<div class="row"  style="max-height: 500px; overflow: auto;">
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Số Bàn / Phòng <input type="text" class="form-control soban" readonly="readonly" />
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Số phiếu: <input type="text"  class="form-control sophieu" readonly="readonly"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Khách hàng: <select class="form-control form-control-sm select2 khachHang selected-hiden" name="state">
+				<option value=""></option>
+				<option value="0" th:each="khachhang:${khachhang}" th:utext="${khachhang.ten}" th:value="${khachhang.id}">Hàng Hóa</option>
+			</select>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Số lượng khách: <input type="number" class="form-control soluongkhach"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Giờ vào: <input type="text" class="form-control giovao" readonly="readonly"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Nhân viên phục vụ: <select class="form-control form-control-sm select2 phucvu selected-hiden" name="state">
+				<option value=""></option>
+				<option value="0" th:each="nhanvien:${nhanvien}" th:utext="${nhanvien.ten}" th:value="${nhanvien.id}">Hàng Hóa</option>
+			</select>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Bảng giá: <input type="text" class="form-control banggia" readonly="readonly"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Thời gian <input type="text" class="form-control thoigian" readonly="readonly"/>
+		</div>
+<!-- //////////////////////////////////////////// -->
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Thu Ngân <input type="text" class="form-control thungan" readonly="readonly"/>
+		</div>
+<!-- //////////////////////////////////////////// -->
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Trả trước: <input type="number" class="form-control tratruoc"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Còn nợ <input type="number" class="form-control conNo"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Giảm(%): <input type="text" class="form-control giam"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Thuế VAT(%): <input type="text" class="form-control thue"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Phí phục vụ(%): <input type="text" class="form-control phipv"/>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+			Thanh Toán: <input type="text" class="form-control thanhtoan" readonly="readonly"/>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			Ghi chú: <input type="text" class="form-control ghichu"/>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<table id="thudondadatall" class="table table-bordered table-hover display">
+
+			</table>
+		</div>
+	</div>
+	<input id="btn-submit" type="submit" style="display: none;" name="">
+</form>
+<script>
+	$(function() {
+		$('input[name="singledatepicker"]').daterangepicker({
+			singleDatePicker: true,
+			showDropdowns: true
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.select2').select2();
+
+		$("#save").submit(function(){
+			var thucdon = $("#thudondadatall").find("#thudondadat").find("tr");
+			var thucDonForm = [];
+			for(let i = 0; i < thucdon.size(); i++){
+				var soLuong = thucdon.eq(i).find(".soLuong").val();
+				if(soLuong <= 0 ){
+					alert("Số lượng thực đơn không hợp lệ");
+					return false;
+				}
+				thucDonForm[i] = {
+					id: thucdon.eq(i).attr("name"),
+					soLuong: soLuong,
+					ghiChu:  thucdon.eq(i).find(".ghichu").val(),
+				}
+			}
+
+			if($(this).find(".soKhach").val() < 0 || $(this).find(".tienDatTruoc").val() < 0){
+
+			}
+
+			var banLeForm = {
+				soBan: $(this).find(".soban").val(),
+				soPhieu: $(this).find(".sophieu").val(),
+				khachHang: $(this).find(".khachHang").find("option:selected").val(),
+				soLuongKhach: $(this).find(".soluongkhach").val(),
+				gioVao: $(this).find(".giovao").val(),
+				phucVu: $(this).find(".phucvu").find("option:selected").val(),
+				thuNgan: $(this).find(".thungan").attr("name"),
+				traTruoc: $(this).find(".tratruoc").val(),
+				conNo: $(this).find(".conNo").val(),
+				giam: $(this).find(".giam").val(),
+				thue: $(this).find(".thue").val(),
+				phiPV: $(this).find(".phipv").val(),
+				ghiChu :  $(this).find(".ghichu").val(),
+				thanhToan :  $(this).find(".thanhtoan").val(),
+				thucDon: thucDonForm
+			}
+			console.log(banLeForm);
+			return save(banLeForm,"/ajax/thungan/banle/save", function(result){
+				console.log(result);
+				if(result.id == 1){
+					$("#thungan").load("/ajax/banphong/thungan1");
+					$("#save").parents("#hoadon-form").hide();
+				}else{
+					alert(result.status);
+				}
+			})
+		})
+
+		$(".selected-hiden").click(function(){
+			alert("aaaaaaaaaaaaaa")
+			$(this).find("option").first().hide()
+		})
+		
+	})
+</script>
+</th:block>

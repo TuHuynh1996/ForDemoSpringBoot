@@ -1,0 +1,295 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+<!-- <link href="../assets/plugins/jstree/style.css"
+th:href="@{/assets/plugins/jstree/style.css}" rel="stylesheet"
+type="text/css" /> -->
+<div class="row">
+	<div class="col-xl-12">
+		<div class="breadcrumb-holder">
+			<h1 class="main-title float-left">Danh sách sản phẩm</h1>
+			<ol class="breadcrumb float-right">
+				<li class="breadcrumb-item">Home</li>
+				<li class="breadcrumb-item active">Mặt hàng</li>
+				<li class="breadcrumb-item active">Danh sách</li>
+			</ol>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<!-- <h3>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h3> -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+		<div class="row">
+			<!-- Khu vực tree view bộ phân     ////////////////////////////////////////////////////////////////////////////////-->
+			<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3" >
+				<div class="card mb-3">
+					<div class="card-header">
+						<h3>
+							<i class="fa fa-folder-open-o"></i> Bộ Phận
+						</h3>
+					</div>
+					<div class="card-header">
+						<button type="button" id="adkh2" class="btn btn-success btn-sm bpbtn" >Thêm</button>
+						<button type="button" id="editkh2" class="btn btn-warning btn-sm bpbtn">Sửa</button>
+						<button type="button" id="deletekh2" class="btn btn-danger btn-sm bpbtn">Xóa</button>
+					</div>
+					
+					<div class="card-body" style="overflow: auto; max-height: 400px" id="nhommathang">
+
+					</div>
+				</div>
+			</div>
+			<!-- Khu vực bảng danh sác nhan viên //////////////////////////////////////////////////////////////////////////////////////// -->
+			<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-9" >
+				<div class="row">
+
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="card mb-3">
+							<div class="card-header" >
+								<h3 id="tabletitle">
+								</h3>
+							</div>
+
+							<div class="card-body">
+								<!-- <div>
+									Toggle columns (click to show / hide columns): 
+									<a href="#" class="toggle-vis" data-column="4"><b>Đăng Nhập</b></a> | 
+									<a href="#" class="toggle-vis" data-column="5"><b>Mật Khẩu</b></a> | 
+									<a href="#" class="toggle-vis" data-column="6"><b>Điện Thoại</b></a> | 
+									<a href="#" class="toggle-vis" data-column="7"><b>Địa Chỉ</b></a> | 
+									<a href="#" class="toggle-vis" data-column="8"><b>Mã Số Thuế</b></a>
+								</div> -->
+								<div class="card-header" >
+									<button type="button" id="add-sanpham" class="btn btn-success">Thêm mặt hàng mới</button>
+								</div>
+								<!-- <div class="row">
+									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+										
+									</div>
+								</div> -->
+								<div class="table-responsive"  id="mathang">
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ///////////////////////////////////////////////////////////////////////////////////////////////// -->
+		</div>
+	</div>
+</div>
+<span data-toggle='modal' id="form-nhomhang" data-target='.form-nhomhang'></span>
+	<div class="modal fade form-nhomhang" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="title-nv"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<form id="form-sp1">
+					<div class="modal-body" >
+						<div class="form-group">
+							<label for="tennsp">Tên thư mục</label> <input
+								type="text" class="form-control" id="tennsp"
+								aria-describedby="emailHelp" placeholder="Nhập tên sản phẩm"
+								required>
+						</div>
+						<div class="form-group">
+							<div class="form-check">
+								<label for="sptype">Loại hàng hóa</label>
+								<select class="form-control form-control-sm" id="sptype" name="sptype">
+									<option value="0">Hàng Hóa</option>
+									<option value="1">Nguyên Liệu</option>
+									<option value="2">Sản Phẩm Chế Biến</option>
+									<option value="3">Dịch Vụ Tính Theo Giờ</option>
+								</select>
+							</div>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" id="spsm" class="btn btn-primary"> Xác nhận</button>
+						<button type="button" class="btn btn-secondary closesp1"
+							data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+	var id;
+	var maCha;
+	$(document).ready(function(){
+		$("#nhommathang").load("/ajax/mathang/listnhomhang");
+		$("#mathang").load("/ajax/mathang/listmathang/0/");
+
+		$(document).on("click",".jstree-anchor",function(){
+			var father = $(this).parents(".simpleTree");
+			if(father.hasClass("simpleTree1")){
+				var abc = $(this).parent(".tree");
+				$(".clicknhomsp").each(function(){
+					$(this).removeClass('clicknhomsp');
+				})
+				abc.addClass("clicknhomsp");
+				var clas = abc.attr("name");
+				var bpa = clas.split('-');
+				var type;
+				var name = $(this).find("span").text()
+				// alert(bpa[3]);
+				if(bpa[3] == 0 && bpa[0] != "0"){
+					type = "Hàng hóa";
+				}else{
+					switch(bpa[3]) {
+						case "1":
+							type = "Nguyên liệu";
+							break;
+						case "2":
+							type = "Sản phẩm pha chế";
+							break;
+						case "3":
+							type = "Dịch vụ tính theo giờ";
+							break;
+						default:
+							type = "";
+							name = 'Admin';
+					}
+				}
+				
+				$("#tabletitle").text("Tên nhóm: " + name + " | Loại nhóm: " + type);
+				loadlsp(bpa[0]);
+			}else{
+				if (father.hasClass("simpleTree2")) {
+					var abc = $(this).parent(".tree-1");
+					$(".chosen").each(function(){
+						$(this).removeClass("chosen");
+					})
+					abc.addClass("chosen");
+				}
+			}
+		})
+
+
+
+		$("#add-sanpham").click(function(){
+			var nhomspid =  $(".clicknhomsp").attr("name");
+			if(typeof nhomspid == "undefined" || nhomspid == "0-admin-0-0"){
+				alert("không thể thêm nhân viên vào thư mục gốc, hãy chọn thư mục khác");
+				return false;
+			}
+			id = "";
+			$("#tensanpham").val("");
+			// $("#dvtselect").val("");
+			$("#sldk").val(0);
+			$("#gtdk").val(0);
+			$("#ismenu").prop('checked', false);
+			var dongiay = $(".dongiay");
+			var giamy = $(".giamy");
+			for(let i =0; i < dongiay.size(); i++){
+				dongiay.eq(i).val(0);
+				giamy.eq(i).val(0);
+			}
+			$("#form-sanpham").click();
+		})
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////// thêm sửa xóa thư mục //////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		$(".bpbtn").each(function(){
+			$(this).click(function(){
+				var sanphamid =  $(".clicknhomsp").attr("name");
+				var idsp = $(this).attr('id');
+				if(typeof sanphamid == "undefined"){
+					sanphamid = "0-admin-0-0";
+				}
+				var sanphamid1 = sanphamid.split('-');
+				if(sanphamid1[0]=="0" && (idsp == "editkh2" || idsp == "deletekh2")){
+					alert("Hãy chọn nhóm khách hàng cụ thể trước khi xóa hoặc chỉnh sửa");
+				}else{
+					if(idsp == "deletekh2"){
+						if(confirm("Xác nhận xóa thư mục")==true){
+							var nhomhang = {
+								"id": sanphamid1[0],
+								"tenkh": sanphamid1[1],
+								"maCha": sanphamid1[2],
+								"loaiNhom":sanphamid1[3]
+							}
+							return save(nhomhang,"/ajax/mathang/deletenhomhang",function(result){
+								console.log(result);
+								if(result.id == "1"){
+									$("#nhommathang").load("/ajax/mathang/listnhomhang", function(){
+										$(".father-tree").click();
+									});
+								}else{
+									alert(result.status);
+									if(result.id == "0"){
+										$("#nhommathang").load("/ajax/mathang/listnhomhang", function(){
+											$(".father-tree").click();
+										});
+									}
+								}
+							})
+						}else{
+							return false;
+						}
+
+					}else{
+						if(idsp == "editkh2"){
+							id = sanphamid1[0];
+							maCha = sanphamid1[2];
+							$("#tennsp").val(sanphamid1[1]);
+							$("#sptype").val(sanphamid1[3]);
+							// console.log(sanphamid1[3]);
+						}else{
+							id ='';
+							maCha = sanphamid1[0];
+							$("#tennsp").val("");
+						}
+						$("#form-nhomhang").click();
+					}
+				}
+			})
+		})
+
+
+		$("#form-sp1").submit(function(){
+			var nhomHang = {
+				"id":id,
+				"ten": $("#tennsp").val(),
+				"maCha":maCha,
+				"loaiNhom" : $( "#sptype option:selected" ).val()
+			}
+			console.log(nhomHang);
+			return save(nhomHang,"/ajax/mathang/savenhomhang", function(result){
+				// console.log(result);
+				$("#nhommathang").load("/ajax/mathang/listnhomhang", function(){
+					if(result.id != "0"){
+						$(".tree"+result.id).click();
+						$(".closesp1").click();
+					}else{
+						alert(result.status);
+						$(".father-tree").click();
+					}
+				});
+				
+			})
+
+		})
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	})
+
+
+	function loadlsp(a){
+		$("#mathang").load("/ajax/mathang/listmathang/"+a+"/");
+	}
+
+
+</script>
+</th:block>

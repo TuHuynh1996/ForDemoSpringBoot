@@ -1,0 +1,46 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+	<div class="row" th:if="${chungTu != null}">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<table class="table table-bordered table-hover display" style="margin-top:10px;">
+				<thead>
+					<tr>
+						<th>STT</th>
+						<th>Tên</th>
+						<th>DVT</th>
+						<th>Giá</th>
+						<th>Giảm</th>
+						<th>Số lượng</th>
+						<th>Thành tiền</th>
+					</tr>
+				</thead>
+				<tbody class="text-nowrap">
+					<tr th:each="chungtu,iterator:${chungTu.dongChungTu}" th:class="${chungtu.name}" th:name="${chungtu.name}">
+						<td th:utext="${iterator.count}"> </td>
+						<td th:utext="${chungtu.sanPham.tenSP}"> </td>
+						<td th:utext="${chungtu.maDVT.ten}"> </td>
+						<td th:utext="${chungtu.donGia}"></td>
+						<td th:utext="${chungtu.giam}"></td>
+						<td th:utext="${chungtu.soLuong}"></td>
+						<td th:with="result=${(chungtu.donGia - chungtu.giam) * chungtu.soLuong}"> <span th:utext="${result}"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+			<p th:utext="'Giảm giá(%): '+${chungTu.giam}"></p>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+			<p th:utext="'Thuế VAT(%): '+${chungTu.thueVAT}"></p>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+			<p th:utext="'Phục vụ(%): '+${chungTu.phiPV}"></p>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+			<b th:utext="'Tổng tiền: '+${chungTu.soTien}"></b>
+		</div>
+
+	</div>
+	<div class="row" th:if="${chungTu == null}">
+		<p> Đã xảy ra lỗi với hóa đơn này, hãy thử tải lại trang</p>
+	</div>
+</th:block>
